@@ -1,0 +1,64 @@
+logging:
+    level:
+        ROOT: INFO
+spring:
+    mvc:
+        problemdetails:
+            enabled: true
+    main.banner-mode: off
+    main:
+        allow-bean-definition-overriding: true
+    lifecycle.timeout-per-shutdown-phase: 9s
+    application:
+        name: zine JPA Spring Boot Application
+    messages:
+        basename: i18n/messages
+    datasource:
+        hikari:
+            pool-name: "SpringDataSourcePool"
+            auto-commit: true
+            maximum-pool-size: 50
+            idle-timeout: 30000
+            connection-timeout: 1000
+            max-lifetime: 2000000
+            validation-timeout: 1000
+            minimum-idle: 5
+            driver-class-name: "com.mysql.cj.jdbc.Driver"
+            jdbc-url: "jdbc:mysql://localhost:3316/zine?allowMultiQueries=true&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Europe/Kiev&maxReconnects=2&connectTimeout=500000"
+            username: "root"
+            password: "root"
+    jpa:
+        datasource:
+            zine:
+                url: jdbc:mysql://localhost:3306/zine?autoReconnect=true&useSSL=false&serverTimezone=Europe/Kiev&maxReconnects=2&connectTimeout=50000
+        properties:
+            hibernate:
+                jdbc:
+                    batch_size: 1000
+                    batch_versioned_data: true
+                order_inserts: true
+                order_updates: true
+#    servlet:
+#        multipart:
+#            enabled: true
+#            file-size-threshold : 2KB
+#            max-file-size: 215MB
+#            max-request-size: 215MB
+#    cache:
+#        type: caffeine
+#        cache-names: schemeTreeCache
+server:
+    port: 8088
+#    servlet:
+#        session:
+#            cookie:
+#                http-only: true
+#    forward-headers-strategy: FRAMEWORK
+#    tomcat:
+#        additional-tld-skip-patterns: "*"
+    shutdown: graceful
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"

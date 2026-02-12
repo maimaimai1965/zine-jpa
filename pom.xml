@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.10</version>
+        <!--        <version>3.4.2</version>-->
+        <!--        <version>4.0.2</version>-->
+        <relativePath /> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>ua.mai.zine.jpa</groupId>
+    <artifactId>zine-jpa</artifactId>
+    <version>0.0.0.001-SNAPSHOT</version>
+    <name>JPA :: [pom]</name>
+    <description>zine project for learning JPA</description>
+    <packaging>pom</packaging>
+
+    <inceptionYear>2025</inceptionYear>
+    <repositories>
+    </repositories>
+
+    <modules>
+        <module>applications</module>
+        <module>modules</module>
+    </modules>
+
+    <properties>
+        <mysql.version>8.0.21</mysql.version>
+        <springdoc.version>2.8.8</springdoc.version>
+        <spring-boot-configuration-processor.version>3.2.1</spring-boot-configuration-processor.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+<!--            <dependency>-->
+<!--                <groupId>com.vaadin</groupId>-->
+<!--                <artifactId>vaadin-bom</artifactId>-->
+<!--                <version>${vaadin.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
+        </dependencies>
+    </dependencyManagement>
+
+</project>

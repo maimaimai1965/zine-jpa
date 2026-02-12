@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  zine-mysql8:45
+    image: mysql:8.0.45
+    command:
+      - --default-authentication-plugin=mysql_native_password # важно для старых клиентов
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+#      - --secure-file-priv=/var/lib/mysql-files
+      - --lower-case-table-names=1                            # имена таблиц нечувствительны к регистру (важно для Linux)
+#      - --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+      - --binlog-expire-logs-seconds=86400                    # удалять бинарные логи через 1 день (86400 секунд)
+
+    ports:
+      - 3316:3306
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: zine        # создает базу при старте
+      MYSQL_USER: zine            # обычный пользователь
+      MYSQL_PASSWORD: zine        # пароль обычного пользователя
+      TZ: Europe/Kiev
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    volumes:
+        - zine-mysql8-files:/var/lib/mysql
+#        - ./mysql-files:/var/lib/mysql-files
+
+    restart: always
+    networks:
+        - zine-net
+
+volumes:
+  zine-mysql8-files:
+networks:
+  zine-net:
+    driver: bridge

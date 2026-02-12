@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ua.mai.zine.jpa</groupId>
+        <artifactId>zine-jpa</artifactId>
+        <version>0.0.0.001-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>modules</artifactId>
+    <packaging>pom</packaging>
+    <name>JPA :: modules [pom]</name>
+    <description>Partner Remuneration Modules</description>
+
+	<modules>
+        <module>zoo</module>
+        <module>aa</module>
+    </modules>
+</project>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="nexus-internal" />
+      <option name="name" value="internal nexus repository" />
+      <option name="url" value="http://repo.hq.telesens.lan/nexus/content/groups/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="nexus-releases" />
+      <option name="name" value="releases nexus repository" />
+      <option name="url" value="http://repo.hq.telesens.lan/nexus/content/groups/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jrs-ce-releases" />
+      <option name="name" value="JasperReports Server CE releases repository" />
+      <option name="url" value="https://jaspersoft.jfrog.io/artifactory/jrs-ce-releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="nexus-third-party" />
+      <option name="name" value="Third party nexus repository" />
+      <option name="url" value="http://repo.hq.telesens.lan/nexus/content/groups/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="nexus-snapshots" />
+      <option name="name" value="snapshots nexus repository" />
+      <option name="url" value="http://repo.hq.telesens.lan/nexus/content/groups/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="nexus-jaspersoft-public" />
+      <option name="name" value="jaspersoft-public nexus repository" />
+      <option name="url" value="http://repo.hq.telesens.lan/nexus/content/groups/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jrs-rest-java-client" />
+      <option name="name" value="Jaspersoft clients releases" />
+      <option name="url" value="http://repo.hq.telesens.lan/nexus/content/groups/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="http://repo.hq.telesens.lan/nexus/content/groups/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="vaadin-aadons" />
+      <option name="name" value="Vaadin Addons" />
+      <option name="url" value="http://repo.hq.telesens.lan/nexus/content/groups/public" />
+    </remote-repository>
+  </component>
+</project>
