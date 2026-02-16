@@ -8,13 +8,14 @@
 logging:
   level:
     ROOT: INFO
-    # JOOQ
-    org.jooq.tools.LoggerListener: ERROR
-    Alarming: DEBUG
     # Для отладки транзакций:
+    com.zaxxer.hikari: DEBUG   # или TRACE для очень подробных логов
 #        org.springframework.jdbc.support.JdbcTransactionManager: DEBUG
-    com.zaxxer.hikari: ERROR
 #        org.springframework.transaction: TRACE
+
+    # JOOQ
+#    org.jooq.tools.LoggerListener: ERROR
+    Alarming: DEBUG
 ##        org.springframework.web.method: TRACE
 ##        org.springframework.security.web: TRACE
     # Для отладки JdbcTemplate и NamedParameterJdbcTemplate (и логирование параметров операторов):

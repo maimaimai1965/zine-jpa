@@ -1,11 +1,14 @@
-package ua.mai.zine.jpa.zoo.entity;
+package ua.mai.zine.jpa.zoo.entity.animal;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.AllArgsConstructor;import ua.mai.zine.jpa.zoo.entity.animal_type.AnimalType;
+import ua.mai.zine.jpa.zoo.entity.tank_animal.TankAnimal;
+
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "ZO_ANIMAL")
@@ -38,4 +41,8 @@ public class Animal {
 
     @Column(name = "DESCR", length = 255)
     private String descr;
+
+    @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY /*, cascade = CascadeType.ALL, orphanRemoval = true*/)
+    private Set<TankAnimal> tankAnimals;
+
 }

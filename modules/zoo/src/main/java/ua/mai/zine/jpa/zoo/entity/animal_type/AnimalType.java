@@ -1,4 +1,4 @@
-package ua.mai.zine.jpa.zoo.entity;
+package ua.mai.zine.jpa.zoo.entity.animal_type;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,23 +7,20 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "ZO_TANK")
+@Table(name = "ZO_ANIMAL_TYPE")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tank {
+public class AnimalType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TANK_ID")
-    private Integer tankId;
+    @Column(name = "ANIMAL_TYPE_ID")
+    private Integer animalTypeId;
 
-    @Column(name = "TANK_TYPE", length = 1, nullable = false)
-    private String tankType;
-
-    @Column(name = "NUMBER_CD", length = 20, nullable = false)
-    private String numberCd;
+    @Column(name = "NAME", length = 100, nullable = false)
+    private String name;
 
     @Column(name = "DESCR", length = 255)
     private String descr;
