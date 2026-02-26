@@ -1,20 +1,12 @@
 package ua.mai.zine.jpa.app;
 
 import jakarta.persistence.EntityManagerFactory;
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import ua.mai.zine.jpa.boot.BeApplication;
-import ua.mai.zine.jpa.zoo.entity.animal.AnimalRepository;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import ua.mai.zine.jpa.zoo.repository.animal.AnimalRepository;
 
 /**
  * The entry point of the Spring Boot application.

@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AntConfiguration">
-    <buildFile url="file://$PROJECT_DIR$/db/db-deploy/database_zyme/dbsetup.xml" />
+    <buildFile url="file://$PROJECT_DIR$/db/db-deploy/database_zyme/dbsetup.xml">
+      <properties>
+        <property name="DB_HOST" value="localhost" />
+        <property name="DB_PORT" value="3316" />
+        <property name="DB_USER" value="root" />
+        <property name="DB_PASS" value="root" />
+        <property name="DB_SCHEMA" value="zine" />
+        <property name="DB_SCHEMA_USER" value="zine" />
+        <property name="DB_SCHEMA_PASS" value="zine" />
+        <property name="TZ" value="Europe/Kiev" />
+        <property name="CONNECT_TIMEOUT_MS" value="20000" />
+        <property name="MAX_RECONNECTS" value="2" />
+        <property name="ENCODING" value="utf8" />
+        <property name="SCRIPT.ENCODING" value="utf8" />
+        <property name="not_prod" value="true" />
+        <property name="DB_DRIVER_CP" value="$PROJECT_DIR$/db/db-deploy/database_zyme/mysql-connector-java-8.0.29.jar" />
+      </properties>
+    </buildFile>
   </component>
 </project>

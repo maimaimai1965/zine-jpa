@@ -31,3 +31,17 @@ INSERT INTO `zo_tank_animal` (`TANK_ID`, `ANIMAL_ID`, `FROM_DT`) VALUES (3, 5, '
 INSERT INTO `zo_tank_animal` (`TANK_ID`, `ANIMAL_ID`, `FROM_DT`) VALUES (2, 6, '2019-09-24');
 INSERT INTO `zo_tank_animal` (`TANK_ID`, `ANIMAL_ID`, `FROM_DT`) VALUES (2, 7, '2019-10-23');
 INSERT INTO `zo_tank_animal` (`TANK_ID`, `ANIMAL_ID`, `FROM_DT`) VALUES (2, 8, '2019-10-23');
+
+/* zo_food_unit */
+INSERT INTO zo_food_unit (FOOD_UNIT_ID, NAME, SHORT_NAME) VALUES (1, 'штука', 'шт.');
+INSERT INTO zo_food_unit (FOOD_UNIT_ID, NAME, SHORT_NAME) VALUES (2, 'киллограмм', 'кг');
+INSERT INTO zo_food_unit (FOOD_UNIT_ID, NAME, SHORT_NAME) VALUES (3, 'грамм', 'гр');
+INSERT INTO zo_food_unit (FOOD_UNIT_ID, NAME, SHORT_NAME) VALUES (4, 'литр', 'л.');
+
+/* zo_food */
+INSERT INTO zo_food (FOOD_ID, NAME, FOOD_UNIT_ID) VALUES (1, 'мясо', 2);
+INSERT INTO zo_food (FOOD_ID, NAME, FOOD_UNIT_ID) VALUES (2, 'бананы', 2);
+INSERT INTO zo_food (FOOD_ID, NAME, FOOD_UNIT_ID) VALUES (3, 'молоко', 4);
+INSERT INTO zo_food (FOOD_ID, NAME, FOOD_UNIT_ID) VALUES (4, 'сено', 2);
+
+

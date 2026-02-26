@@ -16,5 +16,7 @@
 
 	<modules>
         <module>app-be</module>
+        <module>app-kafka</module>
 	</modules>
+
 </project>

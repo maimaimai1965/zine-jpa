@@ -12,7 +12,7 @@
     <groupId>ua.mai.zine.jpa</groupId>
     <artifactId>app-be</artifactId>
     <packaging>jar</packaging>
-    <name>JPA :: Backend Services</name>
+    <name>JPA :: Backend Services Application</name>
     <description>zine Backend Services Application</description>
 
     <dependencies>
@@ -68,6 +68,21 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+<!--            <version>3.2.2</version>-->
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+<!--            <version>3.2.2</version>-->
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

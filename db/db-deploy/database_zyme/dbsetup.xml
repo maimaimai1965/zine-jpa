@@ -8,9 +8,9 @@
 
 
     <!--  Установка свойств по переменным окружения:  -->
-    <property file="dbsetup_env.properties"/>
+<!--    <property file="dbsetup_env.properties"/>-->
     <!--  Установка свойств прямо в файле:  -->
-<!--    <property file="dbsetup_zine.properties"/>-->
+    <property file="dbsetup_zine.properties"/>
 <!--    <property file="dbsetup_zine02.properties"/>-->
 
     <property file="dbsetup_url.properties"/>

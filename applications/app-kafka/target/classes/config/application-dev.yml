@@ -1,0 +1,48 @@
+# ===================================================================
+# Spring Boot configuration for the "dev" profile.
+#
+# This configuration overrides the application.yml file.
+#
+# ===================================================================
+
+logging:
+  level:
+    ROOT: INFO
+    # Для отладки транзакций:
+    com.zaxxer.hikari: DEBUG   # или TRACE для очень подробных логов
+#        org.springframework.jdbc.support.JdbcTransactionManager: DEBUG
+#        org.springframework.transaction: TRACE
+
+    # JOOQ
+#    org.jooq.tools.LoggerListener: ERROR
+    Alarming: DEBUG
+##        org.springframework.web.method: TRACE
+##        org.springframework.security.web: TRACE
+    # Для отладки JdbcTemplate и NamedParameterJdbcTemplate (и логирование параметров операторов):
+    # logging statements:
+#     org.springframework.jdbc.core.JdbcTemplate: TRACE
+   # log parameters of prepared statements:
+#    org.springframework.jdbc.core.StatementCreatorUtils: TRACE
+#    org.springframework.jdbc.support.JdbcAccessor: TRACE
+    org.springframework.security: INFO
+#    org.hibernate.SQL: TRACE
+#    org.hibernate.type: TRACE
+#    org.hibernate.orm.jdbc.bind: trace
+#    org.springframework.web.client.RestClient: DEBUG
+#    org.springframework.http.client: DEBUG
+#    org.springframework.web.client: DEBUG
+#    org.springframework.http: DEBUG
+#    org.springframework.web: DEBUG
+#    org.apache.http: DEBUG
+#    httpclient.wire: DEBUG
+
+server:
+  port: 8088
+  address: localhost
+
+spring:
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: false # we use Webpack dev server + BrowserSync for livereload

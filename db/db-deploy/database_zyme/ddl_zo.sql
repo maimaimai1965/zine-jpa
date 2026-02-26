@@ -56,9 +56,55 @@ create table ZO_TANK_ANIMAL
     TO_DT                datetime  comment '',
     primary key (TANK_ANIMAL_ID)
 );
-
 alter table ZO_TANK_ANIMAL add constraint FK_ZO_TANK_ANIMAL$TANK_ID foreign key (TANK_ID)
     references ZO_TANK (TANK_ID) on delete restrict on update restrict;
-
 alter table ZO_TANK_ANIMAL add constraint FK_ZO_TANK_ANIMAL$ANIMAL_ID foreign key (ANIMAL_ID)
     references ZO_ANIMAL (ANIMAL_ID) on delete restrict on update restrict;
+
+
+/*==============================================================*/
+/* Table: ZO_FOOD_UNIT                                          */
+/*==============================================================*/
+create table ZO_FOOD_UNIT
+(
+    FOOD_UNIT_ID         int not null auto_increment  comment '',
+    NAME                 varchar(32) not null  comment '',
+    SHORT_NAME           varchar(10)  comment '',
+    primary key (FOOD_UNIT_ID)
+);
+alter table ZO_FOOD_UNIT comment 'Единица измерения';
+
+
+/*==============================================================*/
+/* Table: ZO_FOOD                                               */
+/*==============================================================*/
+create table ZO_FOOD
+(
+    FOOD_ID              int not null auto_increment  comment '',
+    NAME                 varchar(128) not null  comment '',
+    FOOD_UNIT_ID         int  comment '',
+    primary key (FOOD_ID)
+);
+alter table ZO_FOOD comment 'Корма для животных';
+alter table ZO_FOOD add constraint FK_ZO_FOOD_REFERENCE_ZO_FOOD_ foreign key (FOOD_UNIT_ID)
+    references ZO_FOOD_UNIT (FOOD_UNIT_ID) on delete restrict on update restrict;
+
+
+/*==============================================================*/
+/* Table: ZOO_FOOD_ORDER                                        */
+/*==============================================================*/
+create table ZOO_FOOD_ORDER
+(
+    FOOD_ORDER_ID        bigint not null auto_increment  comment '',
+    ORDER_DT             date not null  comment '',
+    STATE                char(1)  comment '',
+    ANIMAL_ID            bigint not null  comment '',
+    FOOD_ID              int not null  comment '',
+    AMOUNT               decimal(10,2) not null  comment '',
+    primary key (FOOD_ORDER_ID)
+);
+alter table ZOO_FOOD_ORDER comment 'Заказ на корм для жмвотного';
+alter table ZOO_FOOD_ORDER add constraint FK_ZOO_FOOD_REFERENCE_ZO_ANIMA foreign key (ANIMAL_ID)
+    references ZO_ANIMAL (ANIMAL_ID) on delete restrict on update restrict;
+alter table ZOO_FOOD_ORDER add constraint FK_ZOO_FOOD_REFERENCE_ZO_FOOD foreign key (FOOD_ID)
+    references ZO_FOOD (FOOD_ID) on delete restrict on update restrict;

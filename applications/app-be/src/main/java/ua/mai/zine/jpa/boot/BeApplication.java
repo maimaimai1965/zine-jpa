@@ -14,18 +14,22 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import ua.mai.zine.jpa.boot.config.DefaultProfileUtil;
 import ua.mai.zine.jpa.config.JpaBaseClassConfiguration;
-import ua.mai.zine.jpa.config.JpaZooConfiguration;
-import ua.mai.zine.jpa.zoo.entity.animal.Animal;
-import ua.mai.zine.jpa.zoo.entity.animal.AnimalRepository;
-import ua.mai.zine.jpa.zoo.entity.animal_type.AnimalType;
-import ua.mai.zine.jpa.zoo.entity.animal_type.AnimalTypeRepository;
-import ua.mai.zine.jpa.zoo.entity.tank.Tank;
-import ua.mai.zine.jpa.zoo.entity.tank.TankRepository;
-import ua.mai.zine.jpa.zoo.entity.tank_animal.TankAnimal;
-import ua.mai.zine.jpa.zoo.entity.tank_animal.TankAnimalRepository;
+import ua.mai.zine.jpa.zoo.config.JpaZooConfiguration;
+import ua.mai.zine.jpa.zoo.repository.animal.Animal;
+import ua.mai.zine.jpa.zoo.repository.animal.AnimalRepository;
+import ua.mai.zine.jpa.zoo.repository.animal_type.AnimalType;
+import ua.mai.zine.jpa.zoo.repository.animal_type.AnimalTypeRepository;
+import ua.mai.zine.jpa.zoo.repository.tank.Tank;
+import ua.mai.zine.jpa.zoo.repository.tank.TankRepository;
+import ua.mai.zine.jpa.zoo.repository.tank_animal.TankAnimal;
+import ua.mai.zine.jpa.zoo.repository.tank_animal.TankAnimalRepository;
+import ua.mai.zine.jpa.zoo.service.FoodService;
+import ua.mai.zine.jpa.zoo.repository.food.Food;
+import ua.mai.zine.jpa.zoo.service.dto.FoodOrderDto;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 /**
@@ -68,19 +72,8 @@ public class BeApplication {
             Environment env = context.getEnvironment();
             logApplicationStartup(env);
 
-            AnimalTypeRepository animalTypeRepository = (AnimalTypeRepository)context.getBean("animalTypeRepository");
-            Optional<AnimalType> animalType = animalTypeRepository.findById(1);
-
-            AnimalRepository animalRepository = (AnimalRepository)context.getBean("animalRepository");
-            Optional<Animal> animal = animalRepository.findById(1L);
-
-            TankRepository tankRepository = (TankRepository)context.getBean("tankRepository");
-            Optional<Tank> tank = tankRepository.findById(1);
-
-            TankAnimalRepository tankAnimalRepository = (TankAnimalRepository)context.getBean("tankAnimalRepository");
-            Optional<TankAnimal> tankAnimal = tankAnimalRepository.findById(1L);
-
-            int i = 1;
+//            checkRepository(context);
+            checkService(context);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,5 +111,41 @@ public class BeApplication {
                 contextPath,
                 env.getActiveProfiles());
     }
+
+    private static void checkRepository(ConfigurableApplicationContext context) {
+        AnimalTypeRepository animalTypeRepository = (AnimalTypeRepository)context.getBean("animalTypeRepository");
+        Optional<AnimalType> animalType = animalTypeRepository.findById(1);
+
+        AnimalRepository animalRepository = (AnimalRepository)context.getBean("animalRepository");
+        Optional<Animal> animal = animalRepository.findById(1L);
+
+        TankRepository tankRepository = (TankRepository)context.getBean("tankRepository");
+        Optional<Tank> tank = tankRepository.findById(1);
+
+        TankAnimalRepository tankAnimalRepository = (TankAnimalRepository)context.getBean("tankAnimalRepository");
+        Optional<TankAnimal> tankAnimal = tankAnimalRepository.findById(1L);
+
+        int i = 1;
+    }
+
+    private static void checkService(ConfigurableApplicationContext context) {
+        FoodService foodService = (FoodService)context.getBean("foodService");
+
+//        Animal animal = foodService.findAnimal(1L);
+//        Food food = foodService.findFood(1);
+
+        Long animalId = 1L;
+        Integer foodId = 1;
+        FoodOrderDto foodOrderDto = FoodOrderDto.builder()
+                .animalId(animalId)
+                .foodId(foodId)
+                .amount(40.)
+                .orderDt(LocalDate.now())
+                .build();
+        FoodOrderDto resultFoodOrderDto = foodService.addFoodOrder(foodOrderDto);
+
+        int i = 1;
+    }
+
 }
 

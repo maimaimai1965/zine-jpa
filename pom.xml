@@ -30,6 +30,7 @@
         <mysql.version>8.0.21</mysql.version>
         <springdoc.version>2.8.8</springdoc.version>
         <spring-boot-configuration-processor.version>3.2.1</spring-boot-configuration-processor.version>
+        <maven-compiler-plugin>3.13.0</maven-compiler-plugin>
     </properties>
 
     <dependencyManagement>
@@ -43,5 +44,40 @@
 <!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin}</version> <!-- Use a recent version -->
+                <configuration>
+                    <source>25</source>
+                    <target>25</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+<!--                            <version>1.18.42</version> &lt;!&ndash; Match the dependency version &ndash;&gt;-->
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+<!--            <plugin>-->
+<!--                <groupId>org.projectlombok</groupId>-->
+<!--                <artifactId>lombok-maven-plugin</artifactId>-->
+<!--                <version>1.18.42</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>generate-sources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>delombok</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+        </plugins>
+    </build>
 
 </project>
