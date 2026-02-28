@@ -5,6 +5,13 @@
     <file url="file://$PROJECT_DIR$/applications/app-kafka/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/applications/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/applications/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka/app-kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka/app/app-producer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka/app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka/app/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka/producer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/aa/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/src/main/java" charset="UTF-8" />

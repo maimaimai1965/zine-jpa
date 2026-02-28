@@ -9,13 +9,15 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>applications</artifactId>
+    <groupId>ua.mai.zine.kafka</groupId>
+    <artifactId>kafka</artifactId>
     <packaging>pom</packaging>
-    <name>JPA :: Applications [pom]</name>
+    <name>Kafka :: Kafka [pom]</name>
     <description></description>
 
 	<modules>
-        <module>app-be</module>
+        <module>app</module>
+        <module>producer</module>
 	</modules>
 
 </project>

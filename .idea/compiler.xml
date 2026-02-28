@@ -16,21 +16,25 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
         <module name="aa" />
+        <module name="producer" />
         <module name="core" />
         <module name="zoo" />
+        <module name="app-producer" />
         <module name="app-be" />
-        <module name="app-kafka" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="aa" options="-parameters" />
+      <module name="app" options="-parameters" />
       <module name="app-be" options="-parameters" />
-      <module name="app-kafka" options="-parameters" />
+      <module name="app-producer" options="-parameters" />
       <module name="applications" options="-parameters" />
       <module name="core" options="-parameters" />
+      <module name="kafka" options="-parameters" />
       <module name="modules" options="-parameters" />
+      <module name="producer" options="-parameters" />
       <module name="zine-jpa" options="-parameters" />
       <module name="zoo" options="-parameters" />
     </option>
