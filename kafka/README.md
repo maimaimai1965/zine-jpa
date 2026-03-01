@@ -212,3 +212,6 @@ bin/kafka-configs.sh --alter --entity-type brokers --entity-name <broker-id> --a
 # Describe the configuration of a broker
 bin/kafka-configs.sh --describe --entity-type brokers --entity-name <broker-id> --bootstrap-server localhost:9092
 ```
+
+## Создание Producer
+

@@ -3,36 +3,53 @@ package ua.mai.zine.kafka.producer.service.impl;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-import ua.mai.zine.kafka.producer.dto.CreateProductDto;
-import ua.mai.zine.kafka.producer.event.ProductCreatedEvent;
+import ua.mai.zine.kafka.producer.dto.ProductCreateDto;
+import ua.mai.zine.kafka.producer.event.ProductCreateEvent;
 import ua.mai.zine.kafka.producer.service.ProductService;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
-@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     public static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 
-    private final KafkaTemplate<String, ProductCreatedEvent> kafkaTemplate;
+    private final KafkaTemplate<String, ProductCreateEvent> kafkaTemplate;
+    private final String productCreateTopic;
+
+    public ProductServiceImpl(@Autowired KafkaTemplate<String, ProductCreateEvent> kafkaTemplate,
+                              @Value("${zine.kafka.product-create-topic.name}") String productCreateTopic) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.productCreateTopic = productCreateTopic;
+    }
 
     @Override
-    public String createProduct(CreateProductDto createProductDto) {
+    public String createProduct(ProductCreateDto dto) throws ExecutionException, InterruptedException {
+
         // TODO save to DB
 
         String productId = UUID.randomUUID().toString();
+        ProductCreateEvent productCreateEvent = ProductCreateEvent.create(productId, dto);
 
-        ProductCreatedEvent productCreatedEvent =
-                new ProductCreatedEvent(productId, createProductDto.getTitle(), createProductDto.getPrice(), createProductDto.getQuantity());
+        SendResult<String,ProductCreateEvent> result = kafkaTemplate
+                .send(productCreateTopic, productId, productCreateEvent).get();
+        log.info("Product created: {}", productId);
+        log.info("Topic: {}", result.getRecordMetadata().topic());
+        log.info("Partition: {}", result.getRecordMetadata().partition());
+        log.info("Offset: {}", result.getRecordMetadata().offset());
 
-        CompletableFuture<SendResult<String, ProductCreatedEvent>> future =
-                kafkaTemplate.send("product-create-topic", productId, productCreatedEvent);
+/*
 
+        // Отсылка сообщения с использованием CompletableFuture
+        CompletableFuture<SendResult<String, ProductCreateEvent>> future =
+                kafkaTemplate.send(productCreateTopic, productId, productCreateEvent);
         future.whenComplete((result, ex) -> {
             if (ex != null) {
                 log.error("Error sending message: {}", ex.getMessage());
@@ -40,9 +57,10 @@ public class ProductServiceImpl implements ProductService {
                 log.info("Message sent successfully: {}", result.getRecordMetadata());
             }
         });
-
+        future.join();
         log.info("Product created: {}", productId);
-
+*/
         return productId;
     }
+
 }
