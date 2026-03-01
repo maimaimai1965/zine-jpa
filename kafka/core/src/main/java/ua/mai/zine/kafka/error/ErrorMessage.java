@@ -1,4 +1,4 @@
-package ua.mai.zine.kafka.producer.controller;
+package ua.mai.zine.kafka.error;
 
 
 import java.time.LocalDateTime;

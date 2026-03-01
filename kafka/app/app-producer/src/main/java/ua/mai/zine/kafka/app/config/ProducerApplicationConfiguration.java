@@ -3,9 +3,11 @@ package ua.mai.zine.kafka.app.config;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaAdmin;
@@ -18,32 +20,24 @@ import java.util.Map;
 @Configuration
 public class ProducerApplicationConfiguration {
 
+    @Autowired
+    Environment environment;
+
     @Bean
-    public ProducerFactory<String, Object> producerFactory(
-            @Value("${spring.kafka.bootstrap-servers}") String bootstrapServers,
-//            @Value("${spring.kafka.listener.ack-mode}") String ackMode,
-            @Value("${spring.kafka.producer.key-serializer}") String keySerializer,
-            @Value("${spring.kafka.producer.value-serializer}") String valueSerializer,
-            @Value("${spring.kafka.producer.enable-idempotence}") String enableIdempotence,
-            @Value("${spring.kafka.producer.acks}") String acks,
-            @Value("${spring.kafka.producer.retries}") String retries,
-            @Value("${spring.kafka.producer.properties.max.in.flight.requests.per.connection}") String maxInFlightRequestsPerConnection,
-            @Value("${spring.kafka.producer.properties.retry.backoff.ms}") String retryBackoffMs,
-            @Value("${spring.kafka.producer.properties.delivery-timeout-ms}") String deliveryTimeoutMs,
-            @Value("${spring.kafka.producer.properties.request.timeout.ms}") String requestTimeoutMs) {
+    public ProducerFactory<String, Object> producerFactory() {
 
         Map<String, Object> configs = new HashMap<>();
 
-        configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, keySerializer);
-        configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, valueSerializer);
-        configs.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, enableIdempotence);
-        configs.put(ProducerConfig.ACKS_CONFIG, acks);
-        configs.put(ProducerConfig.RETRIES_CONFIG, retries);
-        configs.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, maxInFlightRequestsPerConnection);
-        configs.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, retryBackoffMs);
-        configs.put(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, deliveryTimeoutMs);
-        configs.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, requestTimeoutMs);
+        configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,      environment.getProperty("spring.kafka.bootstrap-servers"));
+        configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,   environment.getProperty("spring.kafka.producer.key-serializer"));
+        configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, environment.getProperty("spring.kafka.producer.value-serializer"));
+        configs.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG,     environment.getProperty("spring.kafka.producer.enable-idempotence"));
+        configs.put(ProducerConfig.ACKS_CONFIG,                   environment.getProperty("spring.kafka.producer.acks"));
+        configs.put(ProducerConfig.RETRIES_CONFIG,                environment.getProperty("spring.kafka.producer.retries"));
+        configs.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, environment.getProperty("spring.kafka.producer.properties.max.in.flight.requests.per.connection"));
+        configs.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG,       environment.getProperty("spring.kafka.producer.properties.retry.backoff.ms"));
+        configs.put(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG,    environment.getProperty("spring.kafka.producer.properties.delivery-timeout-ms"));
+        configs.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG,     environment.getProperty("spring.kafka.producer.properties.request.timeout.ms"));
 
         return new DefaultKafkaProducerFactory<>(configs);
     }

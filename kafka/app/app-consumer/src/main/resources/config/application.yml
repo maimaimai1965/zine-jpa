@@ -51,7 +51,7 @@ spring:
             group-id: product-create-events
 #            auto-offset-reset: earliest
 #            enable-auto-commit: false
-            properties.spring.json.trusted.packages: "*"
+            properties.spring.json.trusted.packages: ua.mai.zine.kafka.event # "*"
 #                "[spring.json.value.default.type]": "io.maksymdobrynin.async.kafka.api.ChargeRequest"
 #                partition.assignment.strategy: org.apache.kafka.clients.consumer.CooperativeStickyAssignor
 

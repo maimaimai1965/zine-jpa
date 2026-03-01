@@ -33,7 +33,7 @@ public class ProductController {
         } catch (Exception e) {
             log.error("Error creating product: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    new ErrorMessage(LocalDateTime.now(), e.getMessage()));
+                    new ua.mai.zine.kafka.error.ErrorMessage(LocalDateTime.now(), e.getMessage()));
         }
     }
 
