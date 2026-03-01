@@ -6,18 +6,26 @@
         <groupId>ua.mai.zine.jpa</groupId>
         <artifactId>zine-jpa</artifactId>
         <version>0.0.0.001-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <groupId>ua.mai.zine.kafka</groupId>
-    <artifactId>app</artifactId>
-    <packaging>pom</packaging>
-    <name>Kafka :: Applications [pom]</name>
-    <description></description>
+    <artifactId>core</artifactId>
+    <packaging>jar</packaging>
+    <name>Kafka :: core</name>
+    <description>zine Kafka core library</description>
 
-	<modules>
-        <module>app-producer</module>
-        <module>app-consumer</module>
-	</modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+        </plugins>
+    </build>
 </project>

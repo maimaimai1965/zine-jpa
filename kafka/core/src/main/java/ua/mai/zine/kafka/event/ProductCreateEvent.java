@@ -1,10 +1,10 @@
-package ua.mai.zine.kafka.producer.event;
+package ua.mai.zine.kafka.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ua.mai.zine.kafka.producer.dto.ProductCreateDto;
+import ua.mai.zine.kafka.dto.ProductCreateDto;
 
 import java.math.BigDecimal;
 

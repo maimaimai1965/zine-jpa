@@ -1,4 +1,4 @@
-package ua.mai.zine.kafka.producer.dto;
+package ua.mai.zine.kafka.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

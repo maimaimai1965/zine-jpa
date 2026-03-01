@@ -1,0 +1,69 @@
+logging:
+    level:
+        ROOT: INFO
+server:
+    port: 8089
+#    servlet:
+#        session:
+#            cookie:
+#                http-only: true
+#    forward-headers-strategy: FRAMEWORK
+#    tomcat:
+#        additional-tld-skip-patterns: "*"
+spring:
+    mvc:
+        problemdetails:
+            enabled: true
+    main.banner-mode: off
+    main:
+        allow-bean-definition-overriding: true
+    lifecycle.timeout-per-shutdown-phase: 9s
+    application:
+        name: zine Kafka Consumer Application
+    messages:
+        basename: i18n/messages
+    shutdown: graceful
+
+    kafka:
+        bootstrap-servers: localhost:9092
+        listener:
+            # Как подтверждается обработка сообщения consumer-а (KafkaListenerContainerFactory):
+            ack-mode: manual
+#        producer:
+#            key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#            value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#            #
+#            enable-idempotence: true
+#            # Сколько подтверждений нужно от брокеров перед тем, как считать сообщение отправленным:
+#            acks: all   # acks=all    - чтобы producer остался с enable-idempotence=true
+#            retries: 3  # retries > 0 - чтобы producer остался с enable-idempotence=true
+#            properties.max.in.flight.requests.per.connection: 3  # connection <= 5, чтобы producer остался с enable-idempotence=true
+#            # С каким интервалом отправлять отправку:
+#            properties.retry.backoff.ms: 200
+#            # Максимальное время на повторы сообщения:
+#            properties.delivery-timeout-ms: 60_000
+#            # Как долго Producer ждет ответа от брокера
+#            properties.request.timeout.ms: 10_000
+
+        consumer:
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            group-id: product-create-events
+#            auto-offset-reset: earliest
+#            enable-auto-commit: false
+            properties.spring.json.trusted.packages: "*"
+#                "[spring.json.value.default.type]": "io.maksymdobrynin.async.kafka.api.ChargeRequest"
+#                partition.assignment.strategy: org.apache.kafka.clients.consumer.CooperativeStickyAssignor
+
+zine:
+    kafka:
+        product-create-topic:
+            name: product-create-topic
+            partitions: 3
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+

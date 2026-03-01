@@ -10,15 +10,15 @@
     </parent>
 
     <groupId>ua.mai.zine.kafka</groupId>
-    <artifactId>app-producer</artifactId>
+    <artifactId>app-consumer</artifactId>
     <packaging>jar</packaging>
-    <name>Kafka :: Kafka Producer Application</name>
-    <description>zine Kafka Producer Application</description>
+    <name>Kafka :: Kafka Consumer Application</name>
+    <description>zine Kafka Consumer Application</description>
 
     <dependencies>
         <dependency>
             <groupId>ua.mai.zine.kafka</groupId>
-            <artifactId>producer</artifactId>
+            <artifactId>consumer</artifactId>
             <version>${project.version}</version>
         </dependency>
 

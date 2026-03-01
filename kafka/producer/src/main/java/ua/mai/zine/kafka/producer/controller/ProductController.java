@@ -3,19 +3,17 @@ package ua.mai.zine.kafka.producer.controller;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.interceptor.LoggingCacheErrorHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ua.mai.zine.kafka.producer.dto.ProductCreateDto;
+import ua.mai.zine.kafka.dto.ProductCreateDto;
 import ua.mai.zine.kafka.producer.service.ProductService;
 import ua.mai.zine.kafka.producer.service.impl.ProductServiceImpl;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequestMapping("/products")

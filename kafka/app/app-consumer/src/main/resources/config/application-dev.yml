@@ -37,7 +37,7 @@ logging:
 #    httpclient.wire: DEBUG
 
 server:
-  port: 8088
+  port: 8089
   address: localhost
 
 spring:

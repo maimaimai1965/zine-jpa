@@ -8,7 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for JPA :: [pom]" enabled="true">
+      <profile name="Annotation profile for Kafka :: Kafka [pom]" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -16,11 +16,14 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
         <module name="aa" />
-        <module name="producer" />
         <module name="core" />
+        <module name="producer" />
         <module name="zoo" />
-        <module name="app-producer" />
         <module name="app-be" />
+        <module name="app-producer" />
+        <module name="app-consumer" />
+        <module name="consumer" />
+        <module name="core kafka" />
       </profile>
     </annotationProcessing>
   </component>
@@ -29,9 +32,12 @@
       <module name="aa" options="-parameters" />
       <module name="app" options="-parameters" />
       <module name="app-be" options="-parameters" />
+      <module name="app-consumer" options="-parameters" />
       <module name="app-producer" options="-parameters" />
       <module name="applications" options="-parameters" />
+      <module name="consumer" options="-parameters" />
       <module name="core" options="-parameters" />
+      <module name="core kafka" options="-parameters" />
       <module name="kafka" options="-parameters" />
       <module name="modules" options="-parameters" />
       <module name="producer" options="-parameters" />

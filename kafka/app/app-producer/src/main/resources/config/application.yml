@@ -19,7 +19,7 @@ spring:
         allow-bean-definition-overriding: true
     lifecycle.timeout-per-shutdown-phase: 9s
     application:
-        name: zine Kafka Spring Boot Application
+        name: zine Kafka Producer Application
     messages:
         basename: i18n/messages
     shutdown: graceful
