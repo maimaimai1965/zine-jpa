@@ -29,26 +29,10 @@ spring:
         listener:
             # Как подтверждается обработка сообщения consumer-а (KafkaListenerContainerFactory):
             ack-mode: manual
-#        producer:
-#            key-serializer: org.apache.kafka.common.serialization.StringSerializer
-#            value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-#            #
-#            enable-idempotence: true
-#            # Сколько подтверждений нужно от брокеров перед тем, как считать сообщение отправленным:
-#            acks: all   # acks=all    - чтобы producer остался с enable-idempotence=true
-#            retries: 3  # retries > 0 - чтобы producer остался с enable-idempotence=true
-#            properties.max.in.flight.requests.per.connection: 3  # connection <= 5, чтобы producer остался с enable-idempotence=true
-#            # С каким интервалом отправлять отправку:
-#            properties.retry.backoff.ms: 200
-#            # Максимальное время на повторы сообщения:
-#            properties.delivery-timeout-ms: 60_000
-#            # Как долго Producer ждет ответа от брокера
-#            properties.request.timeout.ms: 10_000
-
         consumer:
             key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
             value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-            group-id: product-create-events
+            group-id: product-create-group
 #            auto-offset-reset: earliest
 #            enable-auto-commit: false
             properties.spring.json.trusted.packages: ua.mai.zine.kafka.event # "*"

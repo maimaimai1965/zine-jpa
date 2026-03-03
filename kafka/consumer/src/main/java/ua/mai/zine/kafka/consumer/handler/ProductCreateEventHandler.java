@@ -7,6 +7,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import ua.mai.zine.kafka.event.ProductCreateEvent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 @KafkaListener(topics = "product-create-topic")
 public class ProductCreateEventHandler {
@@ -16,7 +19,9 @@ public class ProductCreateEventHandler {
 
     @KafkaHandler
     public void handle(ProductCreateEvent productCreateEvent) {
-        log.info("Received: {} {}", productCreateEvent.getProductId(), productCreateEvent.getTitle());
+        Map<Character, Integer> map = new HashMap<>();
+
+        log.info("Received: {} {}", productCreateEvent.productId(), productCreateEvent.title());
     }
 
 }

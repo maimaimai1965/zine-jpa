@@ -35,13 +35,13 @@ advertised.listeners=PLAINTEXT://localhost:9092,CONTROLLER://localhost:9093
 ```
 kafka-storage.bat random-uuid
 ```
-S8_YcqRnT766wJOydSTM9w
+i_P7YecyRcmk9B-jJJIjMQ
 
 
 3. Форматируем логи для совместимости с KRaft:<br>
    - 4.2.0:
 ```
-kafka-storage.bat format -t S8_YcqRnT766wJOydSTM9w --standalone -c ../../config/server.properties
+kafka-storage.bat format -t i_P7YecyRcmk9B-jJJIjMQ --standalone -c ../../config/server.properties
 
 Создается каталог (с данными) - C:\tmp\kafka-4.2\kraft-combined-logs 
 ```
@@ -143,7 +143,7 @@ kafka-server-start.bat ../../config/kraft/server3.properties
 
 ```
 # Создание топика c 3 партициями:
-kafka-topics.bat --create --topic payments-created-events-topic --partitions 3 --bootstrap-server localhost:9092
+kafka-topics.bat --create --topic product-create-topic --partitions 3 --bootstrap-server localhost:9092
 
 # Список топиков:
 kafka-topics.bat --list --bootstrap-server localhost:9092
@@ -152,7 +152,7 @@ kafka-topics.bat --list --bootstrap-server localhost:9092
 kafka-topics.bat --describe --bootstrap-server localhost:9092
 
 # Удаление топика:
-kafka-topics.bat --delete --topic payments-created-events-topic --bootstrap-server localhost:9092
+kafka-topics.bat --delete --topic product-create-topic --bootstrap-server localhost:9092
 
 ```
 Если после удаления топика Kafka упала, то нужно удалить временные каталоги сервера и создать их заново. 
@@ -162,22 +162,22 @@ kafka-topics.bat --delete --topic payments-created-events-topic --bootstrap-serv
 #### Отсылка сообщений через producer
 ```
 # Отсылка сообщения (без указания key):
-kafka-console-producer.bat --bootstrap-server localhost:9092 --topic payments-created-events-topic
+kafka-console-producer.bat --bootstrap-server localhost:9092 --topic product-create-topic
   Вводим сообщение после ">" и нажимаем Enter. Например:
   >{"id":1,"amount":1000,"currency":"USD"}
 
 # Отсылка сообщения в партицию (с указанием key):
-kafka-console-producer.bat --bootstrap-server localhost:9092 --topic payments-created-events-topic --property parse.key=true --property key.separator=:
-  Вводим сообщение после ">" и нажимаем Enter. Например:
+
+  Вводим сообщение после ">" и нажимаем Enter. Например:kafka-console-producer.bat --bootstrap-server localhost:9092 --topic product-create-topic --property parse.key=true --property key.separator=:
   >order-1:{"amount":100}
 ```
 #### Чтение сообщений через producer
 ```
 # Чтение сообщений (без показа key):
-kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic payments-created-events-topic --from-beginning
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic product-create-topic --from-beginning
 
 # Чтение сообщений (с показом key):
-kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic payments-created-events-topic --property print.key=true
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic product-create-topic --property print.key=true
 ```
 
 

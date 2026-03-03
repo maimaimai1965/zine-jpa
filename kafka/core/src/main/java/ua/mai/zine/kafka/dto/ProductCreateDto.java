@@ -1,16 +1,9 @@
 package ua.mai.zine.kafka.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 
-@AllArgsConstructor
-@Getter
-@Setter
-public class ProductCreateDto {
-    private String title;
-    private BigDecimal price;
-    private Integer quantity;
-}
+public record ProductCreateDto (
+        String title,
+        BigDecimal price,
+        Integer quantity
+){}
