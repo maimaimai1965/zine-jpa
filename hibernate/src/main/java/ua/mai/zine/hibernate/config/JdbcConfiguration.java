@@ -1,4 +1,4 @@
-package ua.mai.zine.kafka.app.config;
+package ua.mai.zine.hibernate.config;
 
 
 //@Configuration

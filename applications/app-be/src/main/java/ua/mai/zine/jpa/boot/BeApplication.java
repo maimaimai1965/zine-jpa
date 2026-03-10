@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
-import ua.mai.zine.kafka.app.config.DefaultProfileUtil;
+import ua.mai.zine.jpa.app.config.DefaultProfileUtil;
 import ua.mai.zine.jpa.config.JpaBaseClassConfiguration;
 import ua.mai.zine.jpa.zoo.config.JpaZooConfiguration;
 import ua.mai.zine.jpa.zoo.repository.animal.Animal;

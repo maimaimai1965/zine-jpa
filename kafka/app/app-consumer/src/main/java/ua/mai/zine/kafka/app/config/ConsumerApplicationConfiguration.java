@@ -35,8 +35,9 @@ public class ConsumerApplicationConfiguration {
         configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         configs.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, StringDeserializer.class);
 
-        configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
-        configs.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
+        configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+//        configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
+//        configs.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
 
 //        configs.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,   environment.getProperty("spring.kafka.consumer.key-deserializer"));
 ////        configs.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, environment.getProperty("spring.kafka.consumer.value-deserializer"));
@@ -70,7 +71,7 @@ public class ConsumerApplicationConfiguration {
 
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,      environment.getProperty("spring.kafka.bootstrap-servers"));
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,   StringSerializer.class);
-        configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 //        configs.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG,     environment.getProperty("spring.kafka.producer.enable-idempotence"));
 //        configs.put(ProducerConfig.ACKS_CONFIG,                   environment.getProperty("spring.kafka.producer.acks"));
 //        configs.put(ProducerConfig.RETRIES_CONFIG,                environment.getProperty("spring.kafka.producer.retries"));

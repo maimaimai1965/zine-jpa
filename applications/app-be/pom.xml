@@ -103,7 +103,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>ua.mai.zine.jpa.boot.BeApplication</mainClass>
+                    <mainClass>ua.mai.zine.hibernate.BeApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

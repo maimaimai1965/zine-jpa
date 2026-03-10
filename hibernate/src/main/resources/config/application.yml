@@ -1,0 +1,80 @@
+logging:
+    level:
+        ROOT: INFO
+spring:
+    mvc:
+        problemdetails:
+            enabled: true
+    main.banner-mode: off
+    main:
+        allow-bean-definition-overriding: true
+    lifecycle.timeout-per-shutdown-phase: 9s
+    application:
+        name: zine Hibernate Spring Boot Application
+    messages:
+        basename: i18n/messages
+
+    datasource:
+        url: jdbc:mysql://localhost:3306/prs?autoReconnect=true&useSSL=false&serverTimezone=Europe/Kiev&maxReconnects=2&connectTimeout=50000
+#        url: "jdbc:mysql://localhost:3316/zine?allowMultiQueries=true&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Europe/Kiev&maxReconnects=2&connectTimeout=500000"
+        username: "root"
+        password: "root"
+        driver-class-name: "com.mysql.cj.jdbc.Driver"
+#        type: com.zaxxer.hikari.HikariDataSource          # обычно не нужно, уже по умолчанию
+        hikari:
+            pool-name: Zine-MySQL-Hikari    # Имя пула (удобно в логах и мониторинге)
+            # Основные настройки пула (самое важное)
+            maximum-pool-size: 10            # Начните с 10–20, подстраивайте под нагрузку и CPU (часто (ядра × 2) + 5–10)
+            minimum-idle: 5                  # Минимум простаивающих соединений (часто = 40–60% от maximum-pool-size)
+            idle-timeout: 300000             # 5 минут — когда соединение вернётся в пул, если не нужно
+            max-lifetime: 1800000            # 30 минут — максимальное время жизни соединения (MySQL часто убивает >8–24 ч)
+            connection-timeout: 30000        # 30 секунд — максимальное ожидание соединения из пула
+            leak-detection-threshold: 60000  # 60 секунд — логирует утечки соединений (очень полезно в проде)
+            # Полезные для производительности
+            auto-commit: true
+            connection-test-query: SELECT 1   # (не обязательно с MySQL 5.7+, но безопасно)
+            validation-timeout: 5000
+            # MySQL-специфичные оптимизации (очень рекомендуются!)
+            data-source-properties:
+                cachePrepStmts: true            # кэширование prepared statements на стороне клиента (в JDBC-драйвере)
+                prepStmtCacheSize: 250          # размер кэша prepared statements (количество SQL-запросов, которые будут храниться в кэше на соединение. Рекомендуется 250–500.
+                prepStmtCacheSqlLimit: 2048     # максимальная длина SQL-запроса (в символах), который попадёт в кэш. Рекомендуется 2048.
+                useServerPrepStmts: true        # включает серверные prepared statements (MySQL готовит запрос на сервере, а не эмулирует на клиенте).
+                rewriteBatchedStatements: true  # ускоряет batch-вставки
+                maintainTimeStats: false        # oтключает сбор и поддержку внутренней статистики времени выполнения (таймингов) в драйвере.
+                tcpKeepAlive: true              # помогает при долгоживущих соединениях
+                socketTimeout: 30000            # таймаут на чтение/запись в сокет (в миллисекундах)
+    jpa:
+        show-sql: true
+        properties:
+            hibernate:
+                format_sql: true
+                ddl-auto: none       # или update / validate / create-drop
+                dialect: org.hibernate.dialect.MySQLDialect
+
+
+#    servlet:
+#        multipart:
+#            enabled: true
+#            file-size-threshold : 2KB
+#            max-file-size: 215MB
+#            max-request-size: 215MB
+#    cache:
+#        type: caffeine
+#        cache-names: schemeTreeCache
+server:
+    port: 8088
+#    servlet:
+#        session:
+#            cookie:
+#                http-only: true
+#    forward-headers-strategy: FRAMEWORK
+#    tomcat:
+#        additional-tld-skip-patterns: "*"
+    shutdown: graceful
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+

@@ -1,4 +1,4 @@
-package ua.mai.zine.kafka.app.config;
+package ua.mai.zine.hibernate.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.env.Environment;

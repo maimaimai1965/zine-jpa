@@ -1,4 +1,4 @@
-package ua.mai.zine.kafka.app.config;
+package ua.mai.zine.hibernate.config;
 
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;

@@ -4,8 +4,7 @@
     <file url="file://$PROJECT_DIR$/db/db-deploy/database_zyme/ddl_aa.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/db/db-deploy/database_zyme/ddl_zo.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/db/db-deploy/database_zyme/ddl_zo_clean.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/db/db-deploy/database_zyme/initial_data_aa.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/db/db-deploy/database_zyme/initial_data_zo.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/db/db-deploy/database_zyme/mysql_user.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/redis/src/main/resources/db/migration/V1__20250514_REDIS1.sql" dialect="GenericSQL" />
+    <file url="PROJECT" dialect="PostgreSQL" />
   </component>
 </project>

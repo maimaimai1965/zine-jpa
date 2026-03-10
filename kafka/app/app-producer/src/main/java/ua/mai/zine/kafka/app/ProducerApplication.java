@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import ua.mai.zine.kafka.app.config.DefaultProfileUtil;
 import ua.mai.zine.kafka.producer.config.ProducerConfiguration;
 import ua.mai.zine.kafka.producer.controller.ProductController;
+import ua.mai.zine.kafka.producer.controller.ShopController;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -96,6 +97,7 @@ public class ProducerApplication {
 
     private static void checkRepository(ConfigurableApplicationContext context) {
         ProductController productController = (ProductController)context.getBean("productController");
+        ShopController shopController = (ShopController)context.getBean("shopController");
         int i = 1;
     }
 

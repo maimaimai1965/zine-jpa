@@ -21,7 +21,7 @@ public class HibernateConfiguration {
     @Value("${spring.datasource.hikari.driver-class-name:com.mysql.cj.jdbc.Driver}")
     private String driverClassName;
 
-    @Bean("zimeSessionFactory")
+    @Bean("zineSessionFactory")
     public SessionFactory sessionFactory() {
         Configuration configuration = new Configuration();
 
@@ -55,4 +55,5 @@ public class HibernateConfiguration {
 
         return configuration.buildSessionFactory();
     }
+
 }

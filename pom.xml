@@ -5,8 +5,9 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.10</version>
-        <!--        <version>3.4.2</version>-->
-        <!--        <version>4.0.2</version>-->
+<!--        <version>3.4.5</version>-->
+<!--        <version>3.4.2</version>-->
+<!--        <version>4.0.2</version>-->
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
@@ -31,17 +32,11 @@
         <springdoc.version>2.8.8</springdoc.version>
         <spring-boot-configuration-processor.version>3.2.1</spring-boot-configuration-processor.version>
         <maven-compiler-plugin>3.13.0</maven-compiler-plugin>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-<!--            <dependency>-->
-<!--                <groupId>com.vaadin</groupId>-->
-<!--                <artifactId>vaadin-bom</artifactId>-->
-<!--                <version>${vaadin.version}</version>-->
-<!--                <type>pom</type>-->
-<!--                <scope>import</scope>-->
-<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
@@ -60,8 +55,24 @@
                             <artifactId>lombok</artifactId>
 <!--                            <version>1.18.42</version> &lt;!&ndash; Match the dependency version &ndash;&gt;-->
                         </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
 <!--            <plugin>-->

@@ -1,0 +1,67 @@
+# ===================================================================
+# Spring Boot configuration for the "dev" profile.
+#
+# This configuration overrides the application.yml file.
+#
+# ===================================================================
+
+logging:
+  level:
+    ROOT: INFO
+    # Для отладки транзакций:
+    com.zaxxer.hikari: DEBUG   # или TRACE для очень подробных логов
+#        org.springframework.jdbc.support.JdbcTransactionManager: DEBUG
+#        org.springframework.transaction: TRACE
+
+    # JOOQ
+#    org.jooq.tools.LoggerListener: ERROR
+    Alarming: DEBUG
+##        org.springframework.web.method: TRACE
+##        org.springframework.security.web: TRACE
+    # Для отладки JdbcTemplate и NamedParameterJdbcTemplate (и логирование параметров операторов):
+    # logging statements:
+#     org.springframework.jdbc.core.JdbcTemplate: TRACE
+   # log parameters of prepared statements:
+#    org.springframework.jdbc.core.StatementCreatorUtils: TRACE
+#    org.springframework.jdbc.support.JdbcAccessor: TRACE
+    org.springframework.security: INFO
+#    org.hibernate.SQL: TRACE
+#    org.hibernate.type: TRACE
+#    org.hibernate.orm.jdbc.bind: trace
+#    org.springframework.web.client.RestClient: DEBUG
+#    org.springframework.http.client: DEBUG
+#    org.springframework.web.client: DEBUG
+#    org.springframework.http: DEBUG
+#    org.springframework.web: DEBUG
+#    org.apache.http: DEBUG
+#    httpclient.wire: DEBUG
+
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: false # we use Webpack dev server + BrowserSync for livereload
+  datasource:
+    hikari:
+      pool-name: "SpringDataSourcePool"
+      auto-commit: true
+      idle-timeout: 30000
+      connectionTimeout: 100000
+      max-lifetime: 2000000
+      validation-timeout: 40000
+      minimum-idle: 2
+      password: "root"
+      driver-class-name: "com.mysql.cj.jdbc.Driver"
+      #local DB
+      jdbc-url: "jdbc:mysql://localhost:3316/zine?allowMultiQueries=true&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Europe/Kiev&maxReconnects=2&connectTimeout=500000"
+jpa:
+  datasource:
+server:
+  port: 8081
+  address: localhost
