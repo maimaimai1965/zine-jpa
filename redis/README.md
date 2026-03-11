@@ -17,7 +17,7 @@ redis://default@127.0.0.1:6379 -> redis://default@redis:6379
 
 
 ```
-# Создание и старт контейнеров в docker stack с именем zine-redis
+# Создание и старт контейнеров в docker stack с именем zine-redis-learnig (флаг -p)
 docker compose -p zine-redis-learnig up --build
 
 # Удаление контейнеров, сети и volumes в docker stack с именем zine-redis-learnig

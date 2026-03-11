@@ -21,7 +21,9 @@ public class UserService {
     public UserDto create(UserDto dto) {
         log.info("Saving User to Postgres and Redis");
         UserDto withIdDto = new UserDto(UUID.randomUUID().toString(), dto.name(), dto.age(), dto.events());
+
         var saved = userJpaRepository.save(userMapper.toJpaEntity(withIdDto));
+
         userRedisRepository.save(userMapper.toRedisEntity(withIdDto));
         return userMapper.toDto(saved);
     }

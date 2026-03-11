@@ -1,18 +1,68 @@
 package ua.mai.zine.redis;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.Environment;
+import ua.mai.zine.util.DefaultProfileUtil;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 @SpringBootApplication
 public class RedisApplication {
 
-    public static void main(String[] args) {
+    private static final Logger log = LoggerFactory.getLogger(RedisApplication.class);
 
+    public static void main(String[] args) {
 
         java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("UTC"));
         System.out.println("Set JVM timezone: " + java.util.TimeZone.getDefault().getID());
 
-        SpringApplication.run(RedisApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(RedisApplication.class, args);
+        try {
+            Environment env = context.getEnvironment();
+            logApplicationStartup(env);
+
+//            checkRepository(context);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void logApplicationStartup(Environment env) {
+        String protocol = "http";
+        if (env.getProperty("server.ssl.key-store") != null) {
+            protocol = "https";
+        }
+        String serverPort = env.getProperty("server.port");
+        String contextPath = env.getProperty("server.servlet.context-path");
+        if (StringUtils.isBlank(contextPath)) {
+            contextPath = "/";
+        }
+        String hostAddress = "localhost";
+        try {
+            hostAddress = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            log.warn("The host name could not be determined, using `localhost` as fallback");
+        }
+        log.info("\n----------------------------------------------------------\n\t" +
+                        "Application '{}' is running! Access URLs:\n\t" +
+                        "Local: \t\t{}://localhost:{}{}\n\t" +
+                        "External: \t{}://{}:{}{}\n\t" +
+                        "Profile(s): \t{}\n----------------------------------------------------------",
+                env.getProperty("spring.application.name"),
+                protocol,
+                serverPort,
+                contextPath,
+                protocol,
+                hostAddress,
+                serverPort,
+                contextPath,
+                env.getActiveProfiles());
     }
 
 }
