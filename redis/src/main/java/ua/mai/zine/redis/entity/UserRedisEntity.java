@@ -16,6 +16,7 @@ import java.util.Set;
 public class UserRedisEntity implements Serializable {
     @Id
     private String id;
+//    @Indexed
     private String name;
     private int age;
     @Builder.Default

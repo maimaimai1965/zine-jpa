@@ -7,22 +7,21 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
-import ua.mai.zine.util.DefaultProfileUtil;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @SpringBootApplication
-public class RedisApplication {
+public class RedisCacheAsideApplication {
 
-    private static final Logger log = LoggerFactory.getLogger(RedisApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(RedisCacheAsideApplication.class);
 
     public static void main(String[] args) {
 
         java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("UTC"));
         System.out.println("Set JVM timezone: " + java.util.TimeZone.getDefault().getID());
 
-        ConfigurableApplicationContext context = SpringApplication.run(RedisApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(RedisCacheAsideApplication.class, args);
         try {
             Environment env = context.getEnvironment();
             logApplicationStartup(env);
@@ -49,11 +48,16 @@ public class RedisApplication {
         } catch (UnknownHostException e) {
             log.warn("The host name could not be determined, using `localhost` as fallback");
         }
-        log.info("\n----------------------------------------------------------\n\t" +
-                        "Application '{}' is running! Access URLs:\n\t" +
-                        "Local: \t\t{}://localhost:{}{}\n\t" +
-                        "External: \t{}://{}:{}{}\n\t" +
-                        "Profile(s): \t{}\n----------------------------------------------------------",
+        log.info("""
+                 ----------------------------------------------------------
+                 Application '{}' is running! Access URLs:
+                 Local:       {}://localhost:{}{}
+                 External:    {}://{}:{}{}
+                 Profile(s):  {}
+                 Postges:     url:  {}
+                 Redis:       host: {}  port: {} 
+                 ----------------------------------------------------------
+                 """,
                 env.getProperty("spring.application.name"),
                 protocol,
                 serverPort,
@@ -62,7 +66,11 @@ public class RedisApplication {
                 hostAddress,
                 serverPort,
                 contextPath,
-                env.getActiveProfiles());
+                env.getActiveProfiles(),
+                env.getProperty("spring.datasource.url"),
+                env.getProperty("spring.data.redis.host"),
+                env.getProperty("spring.data.redis.host")
+        );
     }
 
 }

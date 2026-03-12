@@ -23,8 +23,10 @@ public class UserService {
         UserDto withIdDto = new UserDto(UUID.randomUUID().toString(), dto.name(), dto.age(), dto.events());
 
         var saved = userJpaRepository.save(userMapper.toJpaEntity(withIdDto));
+        log.info("Saved User to Postgres: {}", withIdDto.id());
 
         userRedisRepository.save(userMapper.toRedisEntity(withIdDto));
+        log.info("Saved User to Redis:    {}", withIdDto.id());
         return userMapper.toDto(saved);
     }
 
@@ -53,14 +55,18 @@ public class UserService {
     public UserDto update(String id, UserDto dto) {
         log.info("Updating User id={} in Postgres and Redis", id);
         dto = new UserDto(id, dto.name(), dto.age(), dto.events());
+
         var updated = userJpaRepository.save(userMapper.toJpaEntity(dto));
+
         userRedisRepository.save(userMapper.toRedisEntity(dto));
         return userMapper.toDto(updated);
     }
 
     public void delete(String id) {
         log.info("Deleting User id={} from Postgres and Redis", id);
+
         userJpaRepository.deleteById(id);
+
         userRedisRepository.deleteById(id);
     }
 }

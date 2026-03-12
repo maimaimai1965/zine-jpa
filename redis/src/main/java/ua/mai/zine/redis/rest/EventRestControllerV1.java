@@ -3,7 +3,6 @@ package ua.mai.zine.redis.rest;
 import ua.mai.zine.redis.dto.EventDto;
 import ua.mai.zine.redis.service.EventService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

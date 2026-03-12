@@ -3,7 +3,6 @@ package ua.mai.zine.redis.rest;
 import ua.mai.zine.redis.dto.UserDto;
 import ua.mai.zine.redis.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

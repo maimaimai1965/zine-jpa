@@ -7,13 +7,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: zine-redis-app
+    container_name: zine-redis-app-cache_aside
     ports:
       - "8080:8080"
     depends_on:
       - redis
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+#      - SPRING_PROFILES_ACTIVE=docker
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?TimeZone=Europe/Kyiv
