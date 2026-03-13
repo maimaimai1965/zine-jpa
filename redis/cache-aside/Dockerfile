@@ -18,7 +18,7 @@ COPY */pom.xml ./
 RUN --mount=type=cache,target=/root/.m2/repository  mvn dependency:go-offline -B
 
 # 3. Copy full source code
-COPY . .
+COPY .. .
 
 # 4. Build → install to local .m2 so modules can depend on each other
 #    -DskipTests = faster, safer for Docker build

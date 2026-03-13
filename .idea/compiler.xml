@@ -20,10 +20,11 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
         </processorPath>
         <module name="aa" />
+        <module name="core" />
         <module name="zoo" />
         <module name="app-be" />
       </profile>
-      <profile name="Annotation profile for Redis :: redis" enabled="true">
+      <profile name="Annotation profile for Redis :: Read Through" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -31,26 +32,19 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
         </processorPath>
+        <module name="read-through" />
         <module name="kafka-core" />
         <module name="producer" />
         <module name="hibernate" />
         <module name="app-producer" />
         <module name="app-consumer" />
         <module name="consumer" />
-      </profile>
-      <profile name="Annotation profile for redis" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-        </processorPath>
-        <module name="redis" />
+        <module name="cache-aside" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="redis" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -60,6 +54,7 @@
       <module name="app-consumer" options="-parameters" />
       <module name="app-producer" options="-parameters" />
       <module name="applications" options="-parameters" />
+      <module name="cache-aside" options="-parameters" />
       <module name="consumer" options="-parameters" />
       <module name="core" options="-parameters" />
       <module name="hibernate" options="-parameters" />
@@ -68,6 +63,7 @@
       <module name="leetcode" options="" />
       <module name="modules" options="-parameters" />
       <module name="producer" options="-parameters" />
+      <module name="read-through" options="-parameters" />
       <module name="redis" options="-parameters" />
       <module name="zine-jpa" options="-parameters" />
       <module name="zoo" options="-parameters" />

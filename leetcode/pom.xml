@@ -13,4 +13,22 @@
 
     <inceptionYear>2026</inceptionYear>
 
+    <properties>
+        <maven-compiler-plugin>3.13.0</maven-compiler-plugin>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin}</version> <!-- Use a recent version -->
+                <configuration>
+                    <source>25</source>
+                    <target>25</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

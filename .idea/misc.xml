@@ -12,6 +12,8 @@
         <option value="$PROJECT_DIR$/redis/pom.xml" />
         <option value="$PROJECT_DIR$/leetcod/pom.xml" />
         <option value="$PROJECT_DIR$/leetcode/pom.xml" />
+        <option value="$PROJECT_DIR$/redis/read-through/pom.xml" />
+        <option value="$PROJECT_DIR$/redis/cache-aside/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

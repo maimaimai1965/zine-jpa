@@ -3,7 +3,7 @@ name: zine-redis-learning
 
 services:
 
-  app:
+  app-cache-aside:
     build:
       context: .
       dockerfile: Dockerfile

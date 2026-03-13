@@ -15,12 +15,12 @@
     </parent>
 
     <groupId>ua.mai.zine.redis</groupId>
-    <artifactId>redis</artifactId>
+    <artifactId>cache-aside</artifactId>
     <packaging>jar</packaging>
-    <name>Redis :: redis</name>
-    <description>zine Redis</description>
+    <name>Redis :: Cashe Aside</name>
+    <description>zine Redis Cashe Aside</description>
 
-    <inceptionYear>2025</inceptionYear>
+    <inceptionYear>2026</inceptionYear>
 
     <repositories>
     </repositories>
