@@ -43,20 +43,28 @@ docker compose -p zine-redis-learnig up --build
 docker compose -p zine-redis-learnig down -v
 ```
 
+
 ### Алгоритм хэширования Cache-Aside
 
 Реализация алгоритма:
 
-1. Для Redis Entity должна использоваться аннотация [@Cacheable](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/annotation/Cacheable.html) -
+1. Должны быть созданы Redis Entity объекты для Redis репозитория с аннотацией _@RedisHash_ -
    [_**EventRedisEntity**_](cache-aside/src/main/java/ua/mai/zine/redis/entity/EventRedisEntity.java),
    [_**UserRedisEntity**_](cache-aside/src/main/java/ua/mai/zine/redis/entity/UserRedisEntity.java).
-2. Должны быть описаны интерфейсы репозиториев для этих entity -
+2. Должны быть описаны интерфейсы репозиториев для этих Entity -
    [_**EventRedisRepository**_](cache-aside/src/main/java/ua/mai/zine/redis/repository/EventRedisRepository.java),
    [_**UserRedisRepository**_](cache-aside/src/main/java/ua/mai/zine/redis/repository/UserRedisRepository.java).
-3. В сервисе должна быть реализована логика по сохранению значений в кэше и их получению из кэша -
+3. Нужно реализовать маппинг Dto и Redis Entity -
+   [_**EventRedisMapper**_](cache-aside/src/main/java/ua/mai/zine/redis/mapper/EventMapper.java),
+   [_**UserRedisMapper**_](cache-aside/src/main/java/ua/mai/zine/redis/mapper/UserMapper.java).  
+4. В сервисе должна быть реализована логика по сохранению значений в кэше и их получению из кэша -
    [_**EventRedisService**_](cache-aside/src/main/java/ua/mai/zine/redis/service/EventService.java),
-   [_**UserRedisService**_](cache-aside/src/main/java/ua/mai/zine/redis/service/UserService.java). См.методы _create()_,
-   _update()_, _delete()_.
+   [_**UserRedisService**_](cache-aside/src/main/java/ua/mai/zine/redis/service/UserService.java). См.методы _create()_, _update()_, _delete()_.
+
+Примечание.
+  - объекты Dto используются в контроллерах при вызове сервисов и как промежуточные объекты для создания Redis Entity.
+  - в кеше хранятся Redis Entity объекты. 
+
 
 ### Алгоритм хэширования Read-Through
 
@@ -65,11 +73,42 @@ docker compose -p zine-redis-learnig down -v
 1. Для приложения устанавливаем аннотацию [@EnableCaching](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/annotation/EnableCaching.html) -
    [_**RedisCacheAsideApplication**_](read-through/src/main/java/ua/mai/zine/redis/RedisCacheAsideApplication.java),
 2. DTO объекты должны реализовывать интерфейс _Serializable_ -
-   [_**EventDto**_](read-through/src/main/java/ua/mai/zine/redis/dto/EventDto.java),
-   [_**UserDto**_](read-through/src/main/java/ua/mai/zine/redis/dto/UserDto.java).
+   [_**EventDto**_](read-through/src/main/java/ua/mai/zine/redis/dto/EventDto.java)   .
 3. В сервисе должна быть реализована логика по сохранению значений в кэше и их получению через кэш. Эта логика
    описывается через аннотации _@Cacheable_ (метод _get()_), _@CachePut_ (метод _update()_) и _@CacheEvict_ (метод _delete()_) - 
-   [_**EventService**_](read-through/src/main/java/ua/mai/zine/redis/service/EventService.java),
+   [_**EventService**_](read-through/src/main/java/ua/mai/zine/redis/service/EventService.java).
+
+Примечание.
+- здесь не нужны:
+   * Redis Entity (аннотация _@RedisHash_ не используется);
+   * Redis Repository;
+   * маппер Dto на Redis Entity.
+  - при сохранении нового объекта в сервисе он не кешируется (метод _create()_).
+  - в кеше хранятся Redis Entity объекты.
+  - объекты Dto используются только в контроллерах при вызове сервисов.
+
+
+### Алгоритм хэширования Write-Through
+
+Реализуется также как и Read-Through плюс добавляется хэширование при выполнении операции создания Entity (для этого 
+метода добавляется аннотация _@CachePut_).
+
+Реализация алгоритма:
+
+1. Для приложения устанавливаем аннотацию [@EnableCaching](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/annotation/EnableCaching.html) -
+   [_**RedisCacheAsideApplication**_](read-through/src/main/java/ua/mai/zine/redis/RedisCacheAsideApplication.java),
+2. DTO объекты должны реализовывать интерфейс _Serializable_ -
+   [_**UserDto**_](read-through/src/main/java/ua/mai/zine/redis/dto/UserDto.java).
+3. В сервисе должна быть реализована логика по сохранению значений в кэше и их получению через кэш. Эта логика
+   описывается через аннотации _@CachePut_ (метод _create()_), _@Cacheable_ (метод _get()_),
+   _@CachePut_ (метод _update()_) и _@CacheEvict_ (метод _delete()_) -
    [_**UserService**_](read-through/src/main/java/ua/mai/zine/redis/service/UserService.java).
 
-Примечание. Не нужны Redis Entity, Redis Repository и аннотация _@Cacheable_!
+Примечание.
+- здесь не нужны:
+  * Redis Entity (аннотация _@RedisHash_ не используется);
+  * Redis Repository;
+  * маппер Dto на Redis Entity.
+- при сохранении нового объекта в сервисе он не кешируется (метод _create()_).
+- в кеше хранятся Redis Entity объекты.
+- объекты Dto используются только в контроллерах при вызове сервисов.

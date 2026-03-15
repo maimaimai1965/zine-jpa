@@ -3,7 +3,7 @@ name: zine-redis-learning
 
 services:
 
-  app-read-вthrough:
+  app-read-through:
     build:
       context: .
       dockerfile: Dockerfile
