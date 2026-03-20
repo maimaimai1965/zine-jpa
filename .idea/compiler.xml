@@ -9,7 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="leetcode" />
       </profile>
-      <profile name="Annotation profile for Redis :: Write-Behind" enabled="true">
+      <profile name="Annotation profile for Hibernate :: Services Application" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -21,6 +21,7 @@
         <module name="kafka-core" />
         <module name="app-be" />
         <module name="app-producer" />
+        <module name="hibernate" />
         <module name="app-consumer" />
         <module name="cache-aside" />
         <module name="read-through" />
@@ -29,16 +30,6 @@
         <module name="zoo" />
         <module name="consumer" />
         <module name="write-behind" />
-      </profile>
-      <profile name="Annotation profile for Hibernate :: Services Application" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-        </processorPath>
-        <module name="hibernate" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

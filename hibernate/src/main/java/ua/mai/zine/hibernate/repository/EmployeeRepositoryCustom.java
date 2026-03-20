@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface EmployeeRepositoryCustom {
 
-    List<EmployeeEntity> findByFilter(EmployeeFilter filter);
+    List<EmployeeEntity> findByFilterWithJooq(EmployeeFilter filter);
+
+    List<EmployeeEntity> findByFilterWithJpaQuery(EmployeeFilter filter);
 }
