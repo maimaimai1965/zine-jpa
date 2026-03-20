@@ -1,0 +1,62 @@
+app.services.greeting.message: Hello World
+
+logging:
+  level:
+    root: INFO
+#    org.hibernate.SQL: DEBUG
+    org.jooq.tools.LoggerListener: DEBUG
+    org.jooq.Constants: OFF
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/zine-jpa
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+#   type: com.zaxxer.hikari.HikariDataSource          # обычно не нужно, уже по умолчанию
+    hikari:
+      pool-name: Zine-JPA-Hikari       # Имя пула (удобно в логах и мониторинге)
+      # Основные настройки пула (самое важное)
+      maximum-pool-size: 10            # Начните с 10–20, подстраивайте под нагрузку и CPU (часто (ядра × 2) + 5–10)
+      minimum-idle: 5                  # Минимум простаивающих соединений (часто = 40–60% от maximum-pool-size)
+      idle-timeout: 300000             # 5 минут — когда соединение вернётся в пул, если не нужно
+      max-lifetime: 1800000            # 30 минут — максимальное время жизни соединения (MySQL часто убивает >8–24 ч)
+      connection-timeout: 30000        # 30 секунд — максимальное ожидание соединения из пула
+      leak-detection-threshold: 60000  # 60 секунд — логирует утечки соединений (очень полезно в проде)
+#      # Полезные для производительности
+#      auto-commit: true
+#      connection-test-query: SELECT 1   # (не обязательно с MySQL 5.7+, но безопасно)
+#      validation-timeout: 5000
+#      # MySQL-специфичные оптимизации (очень рекомендуются!)
+#      data-source-properties:
+#        cachePrepStmts: true            # кэширование prepared statements на стороне клиента (в JDBC-драйвере)
+#        prepStmtCacheSize: 250          # размер кэша prepared statements (количество SQL-запросов, которые будут храниться в кэше на соединение. Рекомендуется 250–500.
+#        prepStmtCacheSqlLimit: 2048     # максимальная длина SQL-запроса (в символах), который попадёт в кэш. Рекомендуется 2048.
+#        useServerPrepStmts: true        # включает серверные prepared statements (MySQL готовит запрос на сервере, а не эмулирует на клиенте).
+#        rewriteBatchedStatements: true  # ускоряет batch-вставки
+#        maintainTimeStats: false        # oтключает сбор и поддержку внутренней статистики времени выполнения (таймингов) в драйвере.
+#        tcpKeepAlive: true              # помогает при долгоживущих соединениях
+#        socketTimeout: 30000            # таймаут на чтение/запись в сокет (в миллисекундах)
+
+  jpa:
+    hibernate:
+      ddl-auto: none        # отключен
+#      ddl-auto: validate    # только проверка
+#      ddl-auto: update      # создаёт недостающие таблицы
+#      ddl-auto: create      # пересоздаёт схему
+#      ddl-auto: create-drop # удаляет при shutdown
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.time_zone: Europe/Kyiv
+        format_sql: true
+
+  # Формат файлов-скриптов - V<версия>__description.sql. Находятся в каталоге /db/migration.
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+app:
+  db:
+    schema: public

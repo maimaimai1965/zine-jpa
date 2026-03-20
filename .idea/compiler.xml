@@ -9,22 +9,28 @@
         <outputRelativeToContentRoot value="true" />
         <module name="leetcode" />
       </profile>
-      <profile name="Annotation profile for JPA :: [pom]" enabled="true">
+      <profile name="Annotation profile for Redis :: Write-Behind" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
         </processorPath>
         <module name="aa" />
-        <module name="core" />
-        <module name="zoo" />
+        <module name="kafka-core" />
         <module name="app-be" />
+        <module name="app-producer" />
+        <module name="app-consumer" />
+        <module name="cache-aside" />
+        <module name="read-through" />
+        <module name="core" />
+        <module name="producer" />
+        <module name="zoo" />
+        <module name="consumer" />
+        <module name="write-behind" />
       </profile>
-      <profile name="Annotation profile for Redis :: Read Through" enabled="true">
+      <profile name="Annotation profile for Hibernate :: Services Application" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -32,14 +38,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
         </processorPath>
-        <module name="read-through" />
-        <module name="kafka-core" />
-        <module name="producer" />
         <module name="hibernate" />
-        <module name="app-producer" />
-        <module name="app-consumer" />
-        <module name="consumer" />
-        <module name="cache-aside" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -65,6 +64,7 @@
       <module name="producer" options="-parameters" />
       <module name="read-through" options="-parameters" />
       <module name="redis" options="-parameters" />
+      <module name="write-behind" options="-parameters" />
       <module name="zine-jpa" options="-parameters" />
       <module name="zoo" options="-parameters" />
     </option>

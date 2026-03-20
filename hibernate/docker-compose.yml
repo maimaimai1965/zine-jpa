@@ -1,0 +1,47 @@
+# Docker stack name
+name: zine-jpa-stack
+
+services:
+
+  zine-jpa-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zine-jpa-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - zine-jpa-postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://zine-jpa-postgres:5432/zine-jpa
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    networks:
+      - zine-jpa-net
+
+  zine-jpa-postgres:
+    image: postgres:17.9
+    container_name: zine-jpa-postgres
+    environment:
+      POSTGRES_DB: zine-jpa
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - zine-jpa-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+
+networks:
+  zine-jpa-net:
+    driver: bridge
+

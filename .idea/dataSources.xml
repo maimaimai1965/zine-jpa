@@ -8,11 +8,11 @@
       <jdbc-url>jdbc:mysql://localhost:3316/zine</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="zine-postgres@localhost:5432" uuid="272f6130-6e1b-4041-b811-25f88cbd12b6">
+    <data-source source="LOCAL" name="zine-jpa@localhost:5432" uuid="272f6130-6e1b-4041-b811-25f88cbd12b6">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/zine-jpa</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

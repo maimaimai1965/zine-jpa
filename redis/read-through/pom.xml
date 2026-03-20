@@ -17,8 +17,8 @@
     <groupId>ua.mai.zine.redis</groupId>
     <artifactId>read-through</artifactId>
     <packaging>jar</packaging>
-    <name>Redis :: Read Through</name>
-    <description>zine Redis Read Through</description>
+    <name>Redis :: Read Through, Write-Through</name>
+    <description>zine Redis Read-Through, Write-Through Cache Algorithms</description>
 
     <inceptionYear>2026</inceptionYear>
 

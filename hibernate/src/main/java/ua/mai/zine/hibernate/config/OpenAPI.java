@@ -6,13 +6,13 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class OpenAPI {
     @Bean
     public io.swagger.v3.oas.models.OpenAPI schedulerOpenAPI() {
         return new io.swagger.v3.oas.models.OpenAPI()
                 .info(new Info()
-                        .title("ZOO API")
+                        .title("Zine Hibernate API")
                         .version("1.0"))
                 .addSecurityItem(new SecurityRequirement().addList("basicAuth"))
                 .components(new io.swagger.v3.oas.models.Components()

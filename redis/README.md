@@ -4,16 +4,18 @@
 
 
 ```
-# Заходим в контейнер в cli
+# Вход в контейнер в cli
 docker exec -it zine-redis redis-cli 
 docker exec -it proselyte-redis redis-cli 
 ```
 
 ### Redis Inside
-Просмотр Redis: http://localhost:5540/
+
+Redis Web Managers: http://localhost:5540/
 
 В окне "Add database" в поле "Connection URL" меняем:
 redis://default@127.0.0.1:6379 -> redis://default@redis:6379
+
 
 ### Docker
 
@@ -90,7 +92,7 @@ docker compose -p zine-redis-learnig down -v
 
 ### Алгоритм хэширования Write-Through
 
-Реализуется также как и Read-Through плюс добавляется хэширование при выполнении операции создания Entity (для этого 
+Реализуется так же как и Read-Through, плюс добавляется хэширование при выполнении операции создания Entity (для этого 
 метода добавляется аннотация _@CachePut_).
 
 Реализация алгоритма:
@@ -112,3 +114,7 @@ docker compose -p zine-redis-learnig down -v
 - при сохранении нового объекта в сервисе он не кешируется (метод _create()_).
 - в кеше хранятся Redis Entity объекты.
 - объекты Dto используются только в контроллерах при вызове сервисов.
+
+
+### Алгоритм хэширования Write-Behind (Write-Back)
+

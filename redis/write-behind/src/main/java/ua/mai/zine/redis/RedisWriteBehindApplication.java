@@ -14,16 +14,16 @@ import java.net.UnknownHostException;
 
 @EnableCaching
 @SpringBootApplication
-public class RedisCacheAsideApplication {
+public class RedisWriteBehindApplication {
 
-    private static final Logger log = LoggerFactory.getLogger(RedisCacheAsideApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(RedisWriteBehindApplication.class);
 
     public static void main(String[] args) {
 
         java.util.TimeZone.setDefault(java.util.TimeZone.getTimeZone("UTC"));
         System.out.println("Set JVM timezone: " + java.util.TimeZone.getDefault().getID());
 
-        ConfigurableApplicationContext context = SpringApplication.run(RedisCacheAsideApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(RedisWriteBehindApplication.class, args);
         try {
             Environment env = context.getEnvironment();
             logApplicationStartup(env);
