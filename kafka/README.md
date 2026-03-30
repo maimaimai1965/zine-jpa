@@ -1,5 +1,19 @@
 
-## Установка Kafka
+## Описание
+
+- [установка Kafka](#standalone-установка-kafka) и [настройки KRaft](настройка-kraft) в Windows.
+
+- [запуск Kafka](#установка-kafka) через [Docker Compose](docker-compose).
+
+- некоторые [команды Kafka](#команды-kafka).
+
+- показана [отсылка сообщений через producer](отсылка-сообщений-через-producer) и  [чтение сообщений через consumer](чтение-сообщений-через-consumer) из командной строки.
+
+- реализован [Producer](producer) в приложении [ProducerApplication](app/app-producer/src/main/java/ua/mai/zine/kafka/app/ProducerApplication.java)
+и [Consumer](consumer) в приложении [ConsumerApplication](app/app-consumer/src/main/java/ua/mai/zine/kafka/app/ConsumerApplication.java).
+
+
+## Standalone Установка Kafka
 
 Скачиваем с https://kafka.apache.org/community/downloads/
 
@@ -35,13 +49,13 @@ advertised.listeners=PLAINTEXT://localhost:9092,CONTROLLER://localhost:9093
 ```
 kafka-storage.bat random-uuid
 ```
-i_P7YecyRcmk9B-jJJIjMQ
+QF6_tuLqQ5Se_XPL7nMspw
 
 
 3. Форматируем логи для совместимости с KRaft:<br>
    - 4.2.0:
 ```
-kafka-storage.bat format -t i_P7YecyRcmk9B-jJJIjMQ --standalone -c ../../config/server.properties
+kafka-storage.bat format -t QF6_tuLqQ5Se_XPL7nMspw --standalone -c ../../config/server.properties
 
 Создается каталог (с данными) - C:\tmp\kafka-4.2\kraft-combined-logs 
 ```
@@ -68,7 +82,6 @@ kafka-server-start.bat ../../config/server.properties
 cd C:/Java/kafka-4.2.0/bin/windows 
 kafka-server-start.bat ../../config/server.properties
 ```
-
 
 
 ### Настройка нескольких серверов Kafka (cluster)  - !НЕ ПОЛУЧИЛОСЬ!
@@ -137,6 +150,69 @@ kafka-server-start.bat ../../config/kraft/server2.properties
 kafka-server-start.bat ../../config/kraft/server3.properties
 ```
 
+
+## Docker Compose
+
+```
+# Создание и старт контейнеров в docker с stack именем из docker-compose.yml:
+docker compose up --build
+
+# Удаление контейнеров, сети и volumes
+docker compose down -v
+
+
+# Создание и старт контейнеров в docker stack с именем zine-kafka-stack (флаг -p)
+docker compose -p zine-kafka-stack up --build
+
+# Удаление контейнеров, сети и volumes в docker stack с именем zine-kafka-stack
+docker compose -p zine-kafka-stack down -v
+```
+
+Kafka запускается в контейнере:
+```
+  zine-kafka-broker:
+    image: apache/kafka:3.7.0
+    container_name: zine-kafka-broker
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@zine-kafka-broker:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    networks:
+      - zine-kafka-net
+```
+
+
+```
+# Убиение всего стека:
+docker compose down -v
+
+# Полное пересоздание стека: 
+docker compose up --build
+
+# 1. Заходим в контейнер приложения producer-app:
+docker exec -it producer-app sh
+
+# 2. Проверяем подключение к Kafka
+nc -zv kafka 9092
+
+# 3. Проверяем, что само приложение отвечает внутри контейнера
+curl -v -X POST http://localhost:8088/products -H "Content-Type: application/json" -d '{ "title": "Apple3", "price": 15.5, "quantity": 11 }'
+```
+
 ## Команды Kafka
 
 ### Topics
@@ -157,6 +233,8 @@ kafka-topics.bat --delete --topic product-create-topic --bootstrap-server localh
 ```
 Если после удаления топика Kafka упала, то нужно удалить временные каталоги сервера и создать их заново. 
 
+
+
 ### Messages
 
 #### Отсылка сообщений через producer
@@ -171,7 +249,7 @@ kafka-console-producer.bat --bootstrap-server localhost:9092 --topic product-cre
   Вводим сообщение после ">" и нажимаем Enter. Например:kafka-console-producer.bat --bootstrap-server localhost:9092 --topic product-create-topic --property parse.key=true --property key.separator=:
   >order-1:{"amount":100}
 ```
-#### Чтение сообщений через producer
+#### Чтение сообщений через consumer
 ```
 # Чтение сообщений (без показа key):
 kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic product-create-topic --from-beginning
@@ -179,7 +257,6 @@ kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic product-cre
 # Чтение сообщений (с показом key):
 kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic product-create-topic --property print.key=true
 ```
-
 
 
 ## Some commands for working with the Kafka message broker.
@@ -213,5 +290,13 @@ bin/kafka-configs.sh --alter --entity-type brokers --entity-name <broker-id> --a
 bin/kafka-configs.sh --describe --entity-type brokers --entity-name <broker-id> --bootstrap-server localhost:9092
 ```
 
-## Создание Producer
 
+## Producer
+
+Приложение - [ProducerApplication](app/app-producer/src/main/java/ua/mai/zine/kafka/app/ProducerApplication.java)
+
+
+
+## Consumer
+
+Приложениe - [ConsumerApplication](app/app-consumer/src/main/java/ua/mai/zine/kafka/app/ConsumerApplication.java)

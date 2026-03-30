@@ -1,0 +1,131 @@
+# Docker stack name
+name: zine-kafka-stack
+
+services:
+
+#  kafka:
+#    image: apache/kafka:4.1.1
+#    container_name: kafka
+#    hostname: kafka
+#    ports:
+#      - "9092:9092"      # внешний порт для хоста и других контейнеров
+#      - "9093:9093"
+#    environment:
+#      # KRaft настройки
+#      KAFKA_NODE_ID: 1
+#      KAFKA_PROCESS_ROLES: broker,controller
+#      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:9093'
+#
+#      # Слушатели — ОБЯЗАТЕЛЬНО
+#      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+#      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+#
+#      # Advertised listeners — только для клиентов (НЕ включаем CONTROLLER!)
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+#
+#      # Обязательные минимальные настройки для single-node
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+#      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+#
+#      # Дополнительно (рекомендуется)
+#      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+#      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk   # любой 22-символьный base64 строка (можно оставить эту)
+#    volumes:
+#      - kafka-data:/var/lib/kafka/data
+#    networks:
+#      - zine-kafka-net
+#    healthcheck:
+#      test: [ "CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+
+  kafka:
+    image: apache/kafka:3.7.0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    networks:
+      - zine-kafka-net
+
+  zine-kafka-producer-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app-producer
+    container_name: zine-kafka-producer-app
+    ports:
+      - "8088:8088"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SERVER_ADDRESS: 0.0.0.0
+
+      # Чтобы видеть больше логов при проблемах с Kafka
+      LOGGING_LEVEL_ORG_APACHE_KAFKA: DEBUG
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_KAFKA: DEBUG
+
+      # Увеличить таймауты, если нужно
+      SPRING_KAFKA_PRODUCER_PROPERTIES_REQUEST_TIMEOUT_MS: 30000
+      SPRING_KAFKA_PRODUCER_PROPERTIES_DELIVERY_TIMEOUT_MS: 60000
+    depends_on:
+      - kafka
+#        condition: service_healthy
+    networks:
+      - zine-kafka-net
+
+  zine-kafka-consumer-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app-consumer
+    container_name: zine-kafka-consumer-app
+    ports:
+      - "8089:8089"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SERVER_ADDRESS: 0.0.0.0
+    depends_on:
+      - kafka
+#        condition: service_healthy
+    networks:
+      - zine-kafka-net
+
+#  zine-kafka-ui:
+#    image: provectuslabs/kafka-ui:latest
+#    container_name: zine-kafka-ui
+#    ports:
+#      - "8090:8080"
+#    environment:
+#      KAFKA_CLUSTERS_0_NAME: local
+#      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: zine-kafka-ui:9092
+#    depends_on:
+#      - kafka
+#    networks:
+#      - zine-kafka-net
+
+volumes:
+  kafka-data:
+
+networks:
+  zine-kafka-net:
+    driver: bridge
+

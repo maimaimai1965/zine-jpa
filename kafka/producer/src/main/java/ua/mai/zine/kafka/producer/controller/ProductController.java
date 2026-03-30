@@ -26,6 +26,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody ProductCreateDto productCreateDto) {
+        log.info("Start create Product: {}", productCreateDto.title());
         String productId = null;
         try {
 

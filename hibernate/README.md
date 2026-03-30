@@ -1,15 +1,42 @@
 
 
+
+## Описание
+
+Примеры организации репозитория-интерфейса [EmployeeRepository](src/main/java/ua/mai/zine/hibernate/repository/EmployeeRepository.java)
+через расширение интерфейса _JpaRepository_ и расширение его через дополнительный интерфейс
+[EmployeeRepositoryCustom](src/main/java/ua/mai/zine/hibernate/repository/EmployeeRepositoryCustom.java) с имплементацией
+последнего в [EmployeeRepositoryImpl](src/main/java/ua/mai/zine/hibernate/repository/EmployeeRepositoryImpl.java).
+
+Приведены примеры различных [способов получения данных в репозитории](#способы-получения-данных-в-репозитории).
+
+Показаны примеры интеграционных тестов с использованием [test container](#test-container). 
+
+Используется PostgreSQL 17.9 разворачиваемая в контейнере docker.
+
+Используется [flyway](#flyway) для накатывания скриптов в БД.
+
+Для разворачивания приложения в контейнере docker используется [Dockerfile](Dockerfile).
+
+
+
 ## Технологии
 
-1. [Docker compose](#docker-compose)
-2. [flyway](#flyway)
-3. [JOOQ](#jooq)
-4. [Querydsl](#querydsl)
-5. [Построение методов с запросами к БД](#построение-методов-с-запросами-к-БД)
-6. [Интеграционное тестирование](#интеграционное-тестирование)
-   - [Управление транзакциями в тестах](#управление-транзакциями-в-тестах)
-   - [Test container](#test-container)
+- [flyway](#flyway)
+- [JOOQ](#jooq)
+- [Querydsl](#querydsl)
+- [Docker](#docker)
+- [Docker compose](#docker-compose)
+- [Test container](#test-container)
+
+
+
+## Docker
+
+Контейнеры:
+- Приложение _JpaApplication_
+- PostgreSQL 17.9
+
 
 
 ## Docker compose
@@ -21,12 +48,7 @@ docker compose up --build
 # Удаление контейнеров, сети и volumes в своем docker stack:
 docker compose down -v
 
-# Создание и старт контейнеров в docker stack с именем zine-redis-learnig (флаг -p)
-docker compose -p zine-redis-learnig up --build
-
-# Удаление контейнеров, сети и volumes в docker stack с именем zine-redis-learnig
-docker compose -p zine-redis-learnig down -v
-
+# Postges
 docker run --name postgres-zine -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=zine-jpa -p 5432:5432 -d postgres:17.9
 ```
 
@@ -53,38 +75,38 @@ docker run --name postgres-zine -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=zin
 https://www.jooq.org/
 
 
+
 ## Querydsl
 http://querydsl.com/
 
 
 
-
-## Построение методов с запросами к БД
+## Способы получения данных в репозитории
 
 См. [EmployeeRepository](src/main/java/ua/mai/zine/hibernate/repository/EmployeeRepository.java):
 
 1. Построение запроса по ключевым словам (см. https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html).
-```
+```java
    Optional<EmployeeEntity> findByFirstNameContaining(String firstName);
 ```
 
  2. Запрос на  JPQL (Java Persistence Query Language)
- ```
+ ```java
   @Query("select e from EmployeeEntity e where e.firstName = :name and e.salary = :salary")
    List<EmployeeEntity> findAllByFirstNameAndSalary(@Param("name") String firstName, @Param("salary") Integer salary);
 ```
 3. Native SQL query
-```
+```java
    @Query(value = "select e.* from employee e where e.first_name = :name and e.salary = :salary",
    nativeQuery = true)
    List<EmployeeEntity> findAllByFirstNameAndSalaryNative(@Param("name") String firstName, @Param("salary") Integer salary);
 ```
 4. Построение запроса по ключевым словам + Projection
-```
+```java
    List<EmployeeNameView> findAllBySalaryGreaterThan(Integer salary);
 ```
 5.Native SQL query + Projection
-```
+```java
     @Query(value = """
                    select e.id as id,
                           e.first_name || e.last_name as fullName
@@ -94,9 +116,46 @@ http://querydsl.com/
            nativeQuery = true)
     List<EmployeeNativeView> findAllBySalaryGreaterThanNative(@Param("salary") Integer salary);
 ```
-См. [EmployeeRepositoryImpl](src/main/java/ua/mai/zine/hibernate/repository/EmployeeRepositoryImpl.java):
-
 6. Использование JOOQ.
+```java
+    @Override
+    public List<EmployeeEntity> findByFilterWithJooq(EmployeeFilter filter) {
+        List<EmployeeEntity> list = dslContext.select(EMPLOYEE.fields())
+                .from(EMPLOYEE)
+                .where(EMPLOYEE.FIRST_NAME.equalIgnoreCase(filter.getFirstName()))
+                .fetch(record -> record.into(EmployeeEntity.class));
+        return list;
+    }
+```
+См. [EmployeeRepositoryImpl](src/main/java/ua/mai/zine/hibernate/repository/EmployeeRepositoryImpl.java)
+
+7. Использование JPAQuery.
+
+[EmployeeFilter](src/main/java/ua/mai/zine/hibernate/dto/EmployeeFilter.java):
+```java
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class EmployeeFilter {
+
+    private String firstName;
+    private String lastName;
+    private Integer salary;
+
+}
+```
+[EmployeeRepositoryImpl](src/main/java/ua/mai/zine/hibernate/repository/EmployeeRepositoryImpl.java):
+```java
+    @Override
+public List<EmployeeEntity> findByFilterWithJpaQuery(EmployeeFilter filter) {
+   return new JPAQuery<EmployeeEntity>(entityManager)
+           .select(employeeEntity)
+           .from(employeeEntity)
+           .where(employeeEntity.firstName.containsIgnoreCase(filter.getFirstName()))
+           .fetch();
+}
+```
 
 
 

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/hibernate/src/main/java/ua/mai/zine/hibernate/repository/EmployeeRepository.java" value="272f6130-6e1b-4041-b811-25f88cbd12b6" />
-    <file url="file://$PROJECT_DIR$/hibernate/src/main/resources/db/migration/V1__init.sql" value="272f6130-6e1b-4041-b811-25f88cbd12b6" />
-    <file url="file://$PROJECT_DIR$/hibernate/src/main/resources/db/migration/V2__flight.sql" value="272f6130-6e1b-4041-b811-25f88cbd12b6" />
-    <file url="file://$PROJECT_DIR$/hibernate/src/test/resources/sql/data.sql" value="272f6130-6e1b-4041-b811-25f88cbd12b6" />
-  </component>
-</project>
