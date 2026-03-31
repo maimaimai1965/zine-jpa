@@ -1,3 +1,27 @@
+# Kafka
+
+- [Описание](#описание)
+- [Установка Kafka](#установка-kafka)
+    - [Standalone Установка Kafka](#standalone-установка-kafka)
+        - [Настройка KRaft](#настройка-kraft)
+        - [Настройка в режиме KRaft server](#настройка-в-режиме-kraft-server)
+        - [Запуск установленного сервера](#запуск-установленного-сервера)
+        - [Настройка нескольких серверов Kafka (cluster)](#настройка-нескольких-серверов-Kafka-cluster)
+    - [Docker Compose](#docker-compose)
+        - [Команды](#команды)
+        - [docker-compose файл](#docker-compose-файл)
+        - [Web UI Kafka](#web-ui-kafka)
+        - [Проверки в контейнере](#проверки-в-контейнере)
+- [Команды Kafka](#команды-kafka)
+    - [Topics](#topics)
+    - [Messages](#messages)
+    - [Отсылка сообщений через producer](#отсылка-сообщений-через-producer)
+    - [Чтение сообщений через consumer](#чтение-сообщений-через-consumer)
+    - [Some commands for working with the Kafka message broker](#some-commands-for-working-with-the-kafka-message-broker)
+- [Producer](#producer)
+- [Consumer](#consumer)
+
+
 
 ## Описание
 
@@ -7,11 +31,14 @@
 
 - некоторые [команды Kafka](#команды-kafka).
 
-- показана [отсылка сообщений через producer](отсылка-сообщений-через-producer) и  [чтение сообщений через consumer](чтение-сообщений-через-consumer) из командной строки.
+- показана [отсылка сообщений через producer](отсылка-сообщений-через-producer) и [чтение сообщений через consumer](чтение-сообщений-через-consumer) из командной строки.
 
 - реализован [Producer](producer) в приложении [ProducerApplication](app/app-producer/src/main/java/ua/mai/zine/kafka/app/ProducerApplication.java)
 и [Consumer](consumer) в приложении [ConsumerApplication](app/app-consumer/src/main/java/ua/mai/zine/kafka/app/ConsumerApplication.java).
 
+
+
+# Установка Kafka
 
 ## Standalone Установка Kafka
 
@@ -84,7 +111,9 @@ kafka-server-start.bat ../../config/server.properties
 ```
 
 
-### Настройка нескольких серверов Kafka (cluster)  - !НЕ ПОЛУЧИЛОСЬ!
+### Настройка нескольких серверов Kafka (cluster)
+ 
+**!НЕ ПОЛУЧИЛОСЬ!**
 
 1. Делаем config файл под каждый сервер. Копируем файл _server.properties_:<br>
    _server1.properties_<br>
@@ -153,6 +182,8 @@ kafka-server-start.bat ../../config/kraft/server3.properties
 
 ## Docker Compose
 
+### Команды
+
 ```
 # Создание и старт контейнеров в docker с stack именем из docker-compose.yml:
 docker compose up --build
@@ -168,11 +199,14 @@ docker compose -p zine-kafka-stack up --build
 docker compose -p zine-kafka-stack down -v
 ```
 
-Kafka запускается в контейнере:
+### Dockerfile
+
+### docker-compose файл
 ```
-  zine-kafka-broker:
-    image: apache/kafka:3.7.0
-    container_name: zine-kafka-broker
+  kafka-localhost:
+#    image: apache/kafka:3.7.0
+    image: apache/kafka:4.1.1
+    container_name: kafka-localhost
     ports:
       - "9092:9092"
       - "9093:9093"
@@ -183,7 +217,7 @@ Kafka запускается в контейнере:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@zine-kafka-broker:9093
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-localhost:9093
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
@@ -193,16 +227,26 @@ Kafka запускается в контейнере:
       - kafka-data:/var/lib/kafka/data
     networks:
       - zine-kafka-net
+
+volumes:
+  kafka-data:
+
+networks:
+  zine-kafka-net:
+    driver: bridge
 ```
+См.:
+- [docker-compose.yml](docker-compose.yml) - запуск Kafka и продьюсера и консьюмера
+- [docker-compose-kafka-localhost.yml](docker-compose-kafka-localhost.yml) - запуск только Kafka
 
+### Web UI Kafka
+
+http://localhost:8090/
+
+
+### Проверки в контейнере
 
 ```
-# Убиение всего стека:
-docker compose down -v
-
-# Полное пересоздание стека: 
-docker compose up --build
-
 # 1. Заходим в контейнер приложения producer-app:
 docker exec -it producer-app sh
 
@@ -212,6 +256,7 @@ nc -zv kafka 9092
 # 3. Проверяем, что само приложение отвечает внутри контейнера
 curl -v -X POST http://localhost:8088/products -H "Content-Type: application/json" -d '{ "title": "Apple3", "price": 15.5, "quantity": 11 }'
 ```
+
 
 ## Команды Kafka
 
@@ -259,7 +304,7 @@ kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic product-cre
 ```
 
 
-## Some commands for working with the Kafka message broker.
+### Some commands for working with the Kafka message broker
 
 ```
 # Describe the configuration of a topic
@@ -295,7 +340,7 @@ bin/kafka-configs.sh --describe --entity-type brokers --entity-name <broker-id> 
 
 Приложение - [ProducerApplication](app/app-producer/src/main/java/ua/mai/zine/kafka/app/ProducerApplication.java)
 
-
+В модуле _producer_ есть _ProductController_, в который куализует POST запрос по созданию .
 
 ## Consumer
 

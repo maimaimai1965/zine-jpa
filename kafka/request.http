@@ -6,8 +6,8 @@ Content-Type: application/json
 
 
 ### 2
-POST http://172.29.0.3:8088/products
+POST 127.0.0.1:8088/shops
 Content-Type: application/json
 
-{ "title": "Apple3", "price": 15.5, "quantity": 11 }
+{ "shop": "mag", "address": "New York" }
 

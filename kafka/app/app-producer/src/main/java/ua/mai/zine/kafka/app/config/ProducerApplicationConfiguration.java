@@ -49,12 +49,14 @@ public class ProducerApplicationConfiguration {
 
     @Bean
     public NewTopic createTopic(@Value("${zine.kafka.product-create-topic.name}") String topicName,
-                                @Value("${zine.kafka.product-create-topic.partitions}") int partitions) {
+                                @Value("${zine.kafka.product-create-topic.partitions}") int partitions,
+                                @Value("${zine.kafka.product-create-topic.replicas}") int replicas,
+                                @Value("${zine.kafka.product-create-topic.min-isync-replicas}") int minIsyncReplicas) {
         return TopicBuilder
                 .name(topicName)
                 .partitions(partitions)
-//                .replicas(3)
-//                .configs(Map.of("min.isync.replicas", "2"))
+//                .replicas(3)                                  // Всего серверов
+//                .configs(Map.of("min.isync.replicas", "2"))   // Сколько серверов должны подтвердить
                 .build();
     }
 

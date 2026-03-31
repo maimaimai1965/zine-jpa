@@ -45,7 +45,6 @@ public class ProductServiceImpl implements ProductService {
         log.info("Offset: {}", result.getRecordMetadata().offset());
 
 /*
-
         // Отсылка сообщения с использованием CompletableFuture
         CompletableFuture<SendResult<String, ProductCreateEvent>> future =
                 kafkaTemplate.send(productCreateTopic, productId, productCreateEvent);

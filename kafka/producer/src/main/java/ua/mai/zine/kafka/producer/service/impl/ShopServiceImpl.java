@@ -23,7 +23,7 @@ public class ShopServiceImpl implements ShopService {
     private final String createTopic;
 
     public ShopServiceImpl(@Autowired KafkaTemplate<String, ShopCreateEvent> kafkaTemplate,
-                           @Value("${zine.kafka.product-create-topic.name}") String createTopic) {
+                           @Value("${zine.kafka.shop-create-topic.name}") String createTopic) {
         this.kafkaTemplate = kafkaTemplate;
         this.createTopic = createTopic;
     }

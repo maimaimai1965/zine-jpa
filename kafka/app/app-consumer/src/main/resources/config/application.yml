@@ -43,7 +43,10 @@ zine:
     kafka:
         product-create-topic:
             name: product-create-topic
-            partitions: 3
+#            partitions: 3
+        shop-create-topic:
+            name: shop-create-topic
+#            partitions: 3
 
 management:
     endpoints:
