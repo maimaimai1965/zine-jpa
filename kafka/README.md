@@ -34,7 +34,14 @@
 - показана [отсылка сообщений через producer](отсылка-сообщений-через-producer) и [чтение сообщений через consumer](чтение-сообщений-через-consumer) из командной строки.
 
 - реализован [Producer](producer) в приложении [ProducerApplication](app/app-producer/src/main/java/ua/mai/zine/kafka/app/ProducerApplication.java)
-и [Consumer](consumer) в приложении [ConsumerApplication](app/app-consumer/src/main/java/ua/mai/zine/kafka/app/ConsumerApplication.java).
+и [Consumer](consumer) в приложении [ConsumerApplication](app/app-consumer/src/main/java/ua/mai/zine/kafka/app/ConsumerApplication.java).<br/>
+  Реализовано:
+    - сценарий пересылки сообщения: <br/>
+      _сообщение ->  ProductController -> ProductService -> Kafka -> ProductCreateEventHandler_
+    - пересылка сообщения сразу в DLQ;
+    - retray сообщения с последующим его размещением в DLQ.
+  
+  Requеsts для них находятся в [request.http](request.http) 
 
 
 

@@ -24,12 +24,12 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_NUM_PARTITIONS: 3
     volumes:
-      - kafka-data:/var/lib/kafka/data
+      - kafka-localhost-data:/var/lib/kafka/data
     networks:
       - zine-kafka-net
 
 volumes:
-  kafka-data:
+  kafka-localhost-data:
 
 networks:
   zine-kafka-net:

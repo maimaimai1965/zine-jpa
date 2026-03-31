@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
+import ua.mai.zine.kafka.app.config.ConsumerApplicationConfiguration;
 import ua.mai.zine.kafka.app.config.DefaultProfileUtil;
 import ua.mai.zine.kafka.consumer.config.ConsumerConfiguration;
 
@@ -23,6 +24,7 @@ import java.net.UnknownHostException;
  */
 @SpringBootApplication
         (scanBasePackageClasses = {
+                ConsumerApplicationConfiguration.class,
                 ConsumerConfiguration.class
 //                JpaBaseClassConfiguration.class,
         }, exclude = {
@@ -45,7 +47,7 @@ public class ConsumerApplication {
 
     public static void main(String[] args) {
         System.getProperties().setProperty("org.jooq.no-logo", "true");
-        System.getProperties().setProperty("spring.application.name", "Producer Application");
+        System.getProperties().setProperty("spring.application.name", "Consumer Application");
         SpringApplication app = new SpringApplication(ConsumerApplication.class);
         DefaultProfileUtil.addDefaultProfile(app);
         try {

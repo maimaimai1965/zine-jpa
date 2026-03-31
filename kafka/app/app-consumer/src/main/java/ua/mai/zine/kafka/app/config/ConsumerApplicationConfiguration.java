@@ -2,8 +2,11 @@ package ua.mai.zine.kafka.app.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +22,14 @@ import ua.mai.zine.kafka.consumer.exception.NonRetryableException;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.util.backoff.FixedBackOff;
+import ua.mai.zine.kafka.consumer.exception.RetryableException;
 
 @Configuration
 public class ConsumerApplicationConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(ConsumerApplicationConfiguration.class);
+    private static final String DLT_SUFFIX = ".DLT";
 
     @Autowired
     Environment environment;
@@ -48,18 +56,40 @@ public class ConsumerApplicationConfiguration {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, Object> kafkaListenerContainerFactory(
             ConsumerFactory<String, Object> consumerFactory,
-            KafkaTemplate kafkaTemplate) {
+            DeadLetterPublishingRecoverer deadLetterPublishingRecoverer) {
 
         ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
 
-        DefaultErrorHandler errorHandler = new DefaultErrorHandler(new DeadLetterPublishingRecoverer(kafkaTemplate));
-        //
+        // Retry 3 times with 1 second delay, then publish record to <topic>.DLT.
+        DefaultErrorHandler errorHandler =
+                new DefaultErrorHandler(deadLetterPublishingRecoverer, new FixedBackOff(1000L, 3L));
+        errorHandler.addRetryableExceptions(RetryableException.class);
         errorHandler.addNotRetryableExceptions(NonRetryableException.class);
+        // Show retray
+        errorHandler.setRetryListeners((record, ex, deliveryAttempt) ->
+                log.warn(
+                        "Retry attempt #{} for {}-{}@{} due to {}: {}",
+                        deliveryAttempt,
+                        record.topic(),
+                        record.partition(),
+                        record.offset(),
+                        ex.getClass().getSimpleName(),
+                        ex.getMessage()
+                )
+        );
 
         factory.setCommonErrorHandler(errorHandler);
 
         return factory;
+    }
+
+    @Bean
+    public DeadLetterPublishingRecoverer deadLetterPublishingRecoverer(KafkaTemplate<String, Object> kafkaTemplate) {
+        return new DeadLetterPublishingRecoverer(
+                kafkaTemplate,
+                (record, ex) -> new TopicPartition(record.topic() + DLT_SUFFIX, record.partition())
+        );
     }
 
     /* Producer для DSL topic */
@@ -70,13 +100,13 @@ public class ConsumerApplicationConfiguration {
 
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,      environment.getProperty("spring.kafka.bootstrap-servers"));
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,   StringSerializer.class);
-        configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
         return new DefaultKafkaProducerFactory<>(configs);
     }
 
     @Bean
-    public KafkaTemplate kafkaTemplate(ProducerFactory<String, Object> producerFactory) {
+    public KafkaTemplate<String, Object> kafkaTemplate(ProducerFactory<String, Object> producerFactory) {
         return new KafkaTemplate<>(producerFactory);
     }
 

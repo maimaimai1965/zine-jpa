@@ -1,6 +1,12 @@
 logging:
     level:
         ROOT: INFO
+
+#        org.springframework.kafka: DEBUG
+#        org.springframework.kafka.core.KafkaTemplate: DEBUG
+#        org.apache.kafka: DEBUG
+#        org.apache.kafka.clients.producer: DEBUG
+
 server:
     port: 8088
 #    servlet:
