@@ -40,9 +40,9 @@ public class ProductServiceImpl implements ProductService {
                 kafkaTemplate.send(productCreateTopic, productId, productCreateEvent)
                              .get();
         log.info("Product created: productId={} title={}", productId, dto.title());
-        log.info("Topic: {}", result.getRecordMetadata().topic());
-        log.info("Partition: {}", result.getRecordMetadata().partition());
-        log.info("Offset: {}", result.getRecordMetadata().offset());
+        log.info("                 Topic:     {}", result.getRecordMetadata().topic());
+        log.info("                 Partition: {}", result.getRecordMetadata().partition());
+        log.info("                 Offset:    {}", result.getRecordMetadata().offset());
 
 /*
         // Отсылка сообщения с использованием CompletableFuture

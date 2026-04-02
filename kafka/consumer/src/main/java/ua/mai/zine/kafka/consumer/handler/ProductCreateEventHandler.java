@@ -20,7 +20,6 @@ public class ProductCreateEventHandler {
 
     public static final Logger log = LoggerFactory.getLogger(ProductCreateEventHandler.class);
 
-
     @KafkaHandler
     public void handle(@NonNull ProductCreateEvent productCreateEvent) {
 

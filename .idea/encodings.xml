@@ -8,6 +8,15 @@
     <file url="file://$PROJECT_DIR$/hibernate/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hibernate/target/generated-sources/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hibernate/target/generated-sources/jooq" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka-transaction/core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka-transaction/deposit-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka-transaction/mock-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka-transaction/transfer-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka-transaction/withdrawal-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka-transactions/core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka-transactions/deposit-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka-transactions/transfer-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/kafka-transactions/withdrawal-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/kafka/app-kafka/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/kafka/app/app-consumer/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/kafka/app/app-producer/src/main/java" charset="UTF-8" />

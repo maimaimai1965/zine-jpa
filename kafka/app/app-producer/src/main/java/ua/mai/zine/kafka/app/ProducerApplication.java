@@ -9,7 +9,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import ua.mai.zine.kafka.app.config.DefaultProfileUtil;
-import ua.mai.zine.kafka.producer.config.ProducerConfiguration;
 import ua.mai.zine.kafka.producer.controller.ProductController;
 import ua.mai.zine.kafka.producer.controller.ShopController;
 
@@ -24,9 +23,9 @@ import java.net.UnknownHostException;
  *
  */
 @SpringBootApplication
-        (scanBasePackageClasses = {
-                ProducerConfiguration.class
-//                JpaBaseClassConfiguration.class,
+        (scanBasePackages = {
+                "ua.mai.zine.kafka.app",
+                "ua.mai.zine.kafka.producer"
         }, exclude = {
 //                SecurityAutoConfiguration.class,
 //                ErrorMvcAutoConfiguration.class,

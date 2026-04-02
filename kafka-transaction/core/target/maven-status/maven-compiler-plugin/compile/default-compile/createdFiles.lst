@@ -1,0 +1,4 @@
+ua\mai\zine\kafka\ws\core\error\NotRetryableException.class
+ua\mai\zine\kafka\ws\core\events\DepositRequestedEvent.class
+ua\mai\zine\kafka\ws\core\events\WithdrawalRequestedEvent.class
+ua\mai\zine\kafka\ws\core\error\RetryableException.class

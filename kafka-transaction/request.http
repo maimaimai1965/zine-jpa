@@ -1,0 +1,8 @@
+
+### 1
+POST http://localhost:8080/transfers
+Content-Type: application/json
+
+{ "senderId": 123, "recepientId": "124", "amount": 509 }
+
+

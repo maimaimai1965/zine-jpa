@@ -4,94 +4,89 @@ import java.util.HashMap;
 import java.util.Map;
 
 /***
- * 7. Reverse Integer - https://leetcode.com/problems/reverse-integer/description/
+ * 8. String to Integer (atoi) - https://leetcode.com/problems/string-to-integer-atoi/description/
  */
 class Solution0008 {
 
-    public int myAtoi(String s) {
-        if (s == null || s.length() == 0)
-            return 0;
-        int[] ar = new int[20];
-        int i = -1;
+    public int myAtoi2(String s) {
         boolean positive = true;
-        boolean readSign = false;
-        boolean readFirstN = false;
-        boolean readFirstNot0 = false;
-        int result = 0;
+        boolean definedSign = false;
+        boolean startedNum = false;
+        long value = 0;
 
-        Map<Character, Integer> map = new HashMap();
-        map.put('0',0);
-        map.put('1',1);
-        map.put('2',2);
-        map.put('3',3);
-        map.put('4',4);
-        map.put('5',5);
-        map.put('6',6);
-        map.put('7',7);
-        map.put('8',8);
-        map.put('9',9);
-
-        lab:
-        for (int j = 0; j<s.length(); j++) {
-            char ch = s.charAt(j);
-            switch (ch) {
-                case ' ':
-                    if (readSign || readFirstN)
-                        break;
-                    else
-                        continue;
-                case '-':
-                    if (!readSign) {
-                        readSign = true;
-                        positive = false;
-                        continue;
-                    } else {
-                        i = -1;
-                        break lab;
-                    }
-                case '+':
-                    if (!readSign) {
-                        readSign = true;
-                        continue;
-                    } else {
-                        i = -1;
-                        break lab;
-                    }
-                case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
-                    readSign = true;
-                    if (ch == '0') {
-                        if (!readFirstNot0)
-                            continue;
-                    } else {
-                        readFirstNot0 = true;
-                    }
-                    i++;
-                    ar[i] = map.get(Character.valueOf(ch));
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == ' ') {
+                if (startedNum)
+                    break;
+                if (definedSign)
+                    return 0;
+                continue;
+            }
+            if (c == '+' || c == '-') {
+                if (startedNum || definedSign)
+                    break;
+                positive = c == '+';
+                definedSign = true;
+                continue;
+            }
+            if (c>='0' && c<='9') {
+                definedSign = true;
+                startedNum = true;
+                if (c=='0' && !startedNum) {
                     continue;
-                default:
-                    break lab;
+                }
+                value = value * 10 + (c - '0');
+
+                long currValue = (positive ? 1 : -1 ) * value;
+                if (positive && currValue > Integer.MAX_VALUE) {
+                    return Integer.MAX_VALUE;
+                }
+                if (!positive && currValue < Integer.MIN_VALUE) {
+                    return Integer.MIN_VALUE;
+                }
+
+
+            } else {
+                if (startedNum)
+                    break;
+                return 0;
             }
         }
 
-        long v = 0;
-        if (i >= 0) {
-            long koef = 1;
-            for (int j = i; j >= 0; j--) {
-                v = v + koef * ar[j];
-                koef= koef* 10;
-            }
-            v = (positive) ? v : -v;
-            if (v < Integer.MIN_VALUE)
-                result = Integer.MIN_VALUE;
-            else
-            if (v > Integer.MAX_VALUE)
-                result = Integer.MAX_VALUE;
-            else
-                result = (int)v;
+        value = (positive ? 1 : -1 ) * value;
+
+        return Long.valueOf(value).intValue();
+    }
+
+    public int myAtoi(String s) {
+        int i = 0, n = s.length();
+
+        while (i < n && s.charAt(i) == ' ') {
+            i++;
         }
 
-        System.out.println("" + s + " -> " + result);
-        return result;
+        int sign = 1;
+        if (i < n && (s.charAt(i) == '+' || s.charAt(i) == '-')) {
+            sign = (s.charAt(i) == '-') ? -1 : 1;
+            i++;
+        }
+
+        long result = 0;
+        while (i < n && Character.isDigit(s.charAt(i))) {
+            result = result * 10 + (s.charAt(i) - '0');
+
+            if (sign * result > Integer.MAX_VALUE) {
+                return Integer.MAX_VALUE;
+            }
+            if (sign * result < Integer.MIN_VALUE) {
+                return Integer.MIN_VALUE;
+            }
+
+            i++;
+        }
+
+        return (int)(sign * result);
     }
 
     public static void main(String[] args) {

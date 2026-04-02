@@ -7,7 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="deposit-service" />
+        <module name="withdrawal-service" />
+        <module name="core" />
         <module name="leetcode" />
+        <module name="mock-service" />
+        <module name="transfer-service" />
       </profile>
       <profile name="Annotation profile for Kafka :: Kafka [pom]" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -17,9 +22,13 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
         </processorPath>
-        <module name="hibernate" />
-        <module name="core" />
+        <module name="core (kafka)" />
         <module name="kafka-core" />
+        <module name="producer" />
+        <module name="hibernate" />
+        <module name="app-producer" />
+        <module name="app-consumer" />
+        <module name="consumer" />
       </profile>
       <profile name="Annotation profile for Redis :: Write-Behind" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -32,18 +41,13 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
         </processorPath>
         <module name="aa" />
-        <module name="core (kafka)" />
-        <module name="app-be" />
-        <module name="app-producer" />
-        <module name="app-consumer" />
-        <module name="cache-aside" />
         <module name="read-through" />
-        <module name="producer" />
         <module name="zine.hibernate" />
         <module name="core (jpa)" />
         <module name="zoo" />
-        <module name="consumer" />
+        <module name="app-be" />
         <module name="write-behind" />
+        <module name="cache-aside" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -63,14 +67,18 @@
       <module name="core" options="-parameters" />
       <module name="core (jpa)" options="-parameters" />
       <module name="core (kafka)" options="-parameters" />
+      <module name="deposit-service" options="-parameters" />
       <module name="hibernate" options="-parameters" />
       <module name="kafka" options="-parameters" />
       <module name="kafka-core" options="-parameters" />
       <module name="leetcode" options="" />
+      <module name="mock-service" options="-parameters" />
       <module name="modules" options="-parameters" />
       <module name="producer" options="-parameters" />
       <module name="read-through" options="-parameters" />
       <module name="redis" options="-parameters" />
+      <module name="transfer-service" options="-parameters" />
+      <module name="withdrawal-service" options="-parameters" />
       <module name="write-behind" options="-parameters" />
       <module name="zine-jpa" options="-parameters" />
       <module name="zine.hibernate" options="-parameters" />

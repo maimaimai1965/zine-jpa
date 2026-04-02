@@ -5,17 +5,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ua.mai.zine.kafka.dto.ProductCreateDto;
 import ua.mai.zine.kafka.error.ErrorMessage;
 import ua.mai.zine.kafka.producer.service.ProductService;
 
 import java.time.LocalDateTime;
 
-@Controller
+@RestController
 @RequestMapping("/products")
 @AllArgsConstructor
 public class ProductController {
@@ -24,7 +25,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> create(@RequestBody ProductCreateDto productCreateDto) {
         log.info("Start create Product: {}", productCreateDto.title());
         String productId = null;

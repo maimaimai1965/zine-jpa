@@ -196,7 +196,7 @@ kafka-server-start.bat ../../config/kraft/server3.properties
 docker compose up --build
 
 # Удаление контейнеров, сети и volumes
-docker compose down -v
+docker compose down -v --remove-orphans
 
 
 # Создание и старт контейнеров в docker stack с именем zine-kafka-stack (флаг -p)
@@ -209,42 +209,13 @@ docker compose -p zine-kafka-stack down -v
 ### Dockerfile
 
 ### docker-compose файл
-```
-  kafka-localhost:
-#    image: apache/kafka:3.7.0
-    image: apache/kafka:4.1.1
-    container_name: kafka-localhost
-    ports:
-      - "9092:9092"
-      - "9093:9093"
-    environment:
-      KAFKA_NODE_ID: 1
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-localhost:9093
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_NUM_PARTITIONS: 3
-    volumes:
-      - kafka-data:/var/lib/kafka/data
-    networks:
-      - zine-kafka-net
 
-volumes:
-  kafka-data:
+- [docker-compose.yml](docker-compose.yml) - запуск Kafka, продьюсера и консьюмера.<br/>
+  Kafka доступна по _localhost:29092_.
+- [docker-compose-kafka-localhost.yml](docker-compose-kafka-localhost.yml) - запуск только Kafka.
+  Kafka доступна по _localhost:9092_.
+- [docker-compose-kafka-multy.yml](docker-compose-kafka-multy.yml) - запуск только кластера Kafka
 
-networks:
-  zine-kafka-net:
-    driver: bridge
-```
-См.:
-- [docker-compose.yml](docker-compose.yml) - запуск Kafka и продьюсера и консьюмера
-- [docker-compose-kafka-localhost.yml](docker-compose-kafka-localhost.yml) - запуск только Kafka
 
 ### Web UI Kafka
 
