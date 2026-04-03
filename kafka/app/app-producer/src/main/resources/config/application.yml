@@ -31,8 +31,7 @@ spring:
     shutdown: graceful
 
     kafka:
-        # С хоста к брокеру в docker-compose (внешний listener): 29092
-        bootstrap-servers: localhost:29092
+        bootstrap-servers: localhost:9092
         listener:
             # Как подтверждается обработка сообщения consumer-а (KafkaListenerContainerFactory):
             ack-mode: manual

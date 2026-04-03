@@ -210,11 +210,20 @@ docker compose -p zine-kafka-stack down -v
 
 ### docker-compose файл
 
-- [docker-compose.yml](docker-compose.yml) - запуск Kafka, продьюсера и консьюмера.<br/>
+- [docker-compose.yml](docker-compose.yml) - запуск **одного брокера** Kafka, продьюсера и консьюмера в Docker.<br/>
   Kafka доступна по _localhost:29092_.
-- [docker-compose-kafka-localhost.yml](docker-compose-kafka-localhost.yml) - запуск только Kafka.
-  Kafka доступна по _localhost:9092_.
-- [docker-compose-kafka-multy.yml](docker-compose-kafka-multy.yml) - запуск только кластера Kafka
+  Запросы к продьюсеру см. [request.http](request.http)
+
+- [docker-compose-kafka-localhost.yml](docker-compose-kafka-localhost.yml) - запуск только **одного брокера** Kafka в Docker.<br/>
+  Kafka доступна по _localhost:9092_.<br/>
+  Используется для разработки с запуском приложений из Idea.<br/>
+  Запросы к продьюсеру см. [request.http](request.http)
+
+- [docker-compose-kafka-cluster-localhost.yml](docker-compose-kafka-cluster-localhost.yml) - запуск **кластера** Kafka
+  в Docker.<br/>
+  Kafka доступна по _localhost:9092_.<br/>
+  Используется для разработки с запуском приложений из Idea.<br/>
+  Запросы к продьюсеру см. [request.http](request.http)
 
 
 ### Web UI Kafka

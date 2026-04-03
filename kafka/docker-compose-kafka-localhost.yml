@@ -4,7 +4,6 @@ name: zine-kafka-stack
 services:
 
   kafka-localhost:
-#    image: apache/kafka:3.7.0
     image: apache/kafka:4.1.1
     container_name: kafka-localhost
     ports:
