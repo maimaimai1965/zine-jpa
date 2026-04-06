@@ -72,9 +72,10 @@ services:
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SERVER_ADDRESS: 0.0.0.0
+      SPRING_DATASOURCE_URL: jdbc:postgresql://zine-kafka-postgres:5432/zine-kafka
     depends_on:
       - kafka
-#        condition: service_healthy
+      - zine-kafka-postgres
     networks:
       - zine-kafka-net
 
@@ -91,8 +92,36 @@ services:
     networks:
       - zine-kafka-net
 
+  zine-kafka-postgres:
+    image: postgres:17-alpine
+    container_name: zine-kafka-postgres
+    restart: unless-stopped            # автоматически перезапускается при падении
+    environment:
+      POSTGRES_DB: zine-kafka
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-db/01-create-schema.sql:/docker-entrypoint-initdb.d/01-create-schema.sql   # создание схемы
+    networks:
+      - zine-kafka-net
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d zine-kafka" ]   # ← проверяем нужную БД
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s # даём время на запуск при первой инициализации
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
 volumes:
   kafka-data:
+  pgdata:
 
 networks:
   zine-kafka-net:

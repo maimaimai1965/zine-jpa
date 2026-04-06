@@ -1,5 +1,6 @@
 package ua.mai.zine.kafka.producer.service.impl;
 
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,14 @@ public class ProductServiceImpl implements ProductService {
         String productId = UUID.randomUUID().toString();
         ProductCreateEvent productCreateEvent = ProductCreateEvent.create(productId, dto);
 
+        ProducerRecord<String, ProductCreateEvent> record = new ProducerRecord<>(
+                productCreateTopic,
+                productId,
+                productCreateEvent);
+        record.headers().add("messageId", UUID.randomUUID().toString().getBytes());
+
         SendResult<String,ProductCreateEvent> result =
-                kafkaTemplate.send(productCreateTopic, productId, productCreateEvent)
+                kafkaTemplate.send(record)
                              .get();
 
         log.info("Product created: productId={} title={}", productId, dto.title());

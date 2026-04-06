@@ -18,9 +18,9 @@
     - [Отсылка сообщений через producer](#отсылка-сообщений-через-producer)
     - [Чтение сообщений через consumer](#чтение-сообщений-через-consumer)
     - [Some commands for working with the Kafka message broker](#some-commands-for-working-with-the-kafka-message-broker)
-- [Producer](#producer)
-- [Consumer](#consumer)
-- [Integration Test for Producer](integration-test-for-producer)
+- [Идемпотентный Producer](#producer)
+- [Идемпотентный Consumer](#consumer)
+- [Integration Test for Producer](#integration-test-for-producer)
 
 
 
@@ -336,6 +336,9 @@ bin/kafka-configs.sh --describe --entity-type brokers --entity-name <broker-id> 
 
 Приложениe - [ConsumerApplication](app/app-consumer/src/main/java/ua/mai/zine/kafka/app/ConsumerApplication.java)
 
+Рализован идемпотентный consumer [ProductCreateEventHandler](consumer/src/main/java/ua/mai/zine/kafka/consumer/handler/ProductCreateEventHandler.java).
+Идемпотенность реализована через хранение обработанных сообщений в БД с последующей проверкой обрабатываемых сообщений
+на присутствие их в БД.
 
 ## Integration Test for Producer
 - [ProductServiceImplTest.testCreateProduct_whenGivenValidProductDetail_succesfulySendKafkaMessageIT()](producer/src/test/java/ua/mai/zine/kafka/producer/service/impl/ProductServiceImplTest.java)

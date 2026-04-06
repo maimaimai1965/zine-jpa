@@ -13,4 +13,24 @@ public record ProductCreateEvent(
         return new ProductCreateEvent(productId, dto.title(), dto.price(), dto.quantity());
     }
 
+    @Override
+    public String productId() {
+        return productId;
+    }
+
+    @Override
+    public String title() {
+        return title;
+    }
+
+    @Override
+    public BigDecimal price() {
+        return price;
+    }
+
+    @Override
+    public Integer quantity() {
+        return quantity;
+    }
+
 }
