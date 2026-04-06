@@ -1,6 +1,10 @@
 package ua.mai.zine.kafka.transfer_service.service;
 
+import org.apache.kafka.common.Uuid;
+import org.springframework.beans.BeanUtils;
 import org.springframework.kafka.support.SendResult;
+import ua.mai.zine.kafka.transfer_service.persistence.TransferEntity;
+import ua.mai.zine.kafka.transfer_service.persistence.TransferRepository;
 import ua.mai.zine.kafka.ws.core.events.DepositRequestedEvent;
 import ua.mai.zine.kafka.ws.core.events.WithdrawalRequestedEvent;
 import org.slf4j.Logger;
@@ -26,15 +30,17 @@ public class TransferServiceImpl implements TransferService {
     private final KafkaTemplate<String, Object> kafkaTemplate;
     private final Environment environment;
     private final RestTemplate restTemplate;
+    private final TransferRepository transferRepository;
 
     public TransferServiceImpl(KafkaTemplate<String, Object> kafkaTemplate, Environment environment,
-                               RestTemplate restTemplate) {
+                               RestTemplate restTemplate, TransferRepository transferRepository) {
         this.kafkaTemplate = kafkaTemplate;
         this.environment = environment;
         this.restTemplate = restTemplate;
+        this.transferRepository = transferRepository;
     }
 
-    @Transactional(value = "kafkaTransactionManager")
+    @Transactional("transactionManager")
     @Override
     public boolean transfer(TransferRestModel transferRestModel) {
         WithdrawalRequestedEvent withdrawalEvent =
@@ -45,6 +51,12 @@ public class TransferServiceImpl implements TransferService {
                         transferRestModel.getAmount());
 
         try {
+            TransferEntity transferEntity = new TransferEntity();
+            BeanUtils.copyProperties(transferRestModel, transferEntity);
+            transferEntity.setTransferId(Uuid.randomUuid().toString());
+            transferRepository.save(transferEntity);
+            LOGGER.info("Save transferEntity into DB");
+
             CompletableFuture<SendResult<String, Object>> result1 =
                     kafkaTemplate.send(environment.getProperty("withdraw-money-topic", "withdraw-money-topic"),
                                        withdrawalEvent);

@@ -1,6 +1,6 @@
-# Kafka
+# Проект kafka
 
-- [Описание](#описание)
+- [Общее описание](#общее-описание)
 - [Установка Kafka](#установка-kafka)
     - [Standalone Установка Kafka](#standalone-установка-kafka)
         - [Настройка KRaft](#настройка-kraft)
@@ -20,10 +20,11 @@
     - [Some commands for working with the Kafka message broker](#some-commands-for-working-with-the-kafka-message-broker)
 - [Producer](#producer)
 - [Consumer](#consumer)
+- [Integration Test for Producer](integration-test-for-producer)
 
 
 
-## Описание
+## Общее описание
 
 - [установка Kafka](#standalone-установка-kafka) и [настройки KRaft](настройка-kraft) в Windows.
 
@@ -38,10 +39,12 @@
   Реализовано:
     - сценарий пересылки сообщения: <br/>
       _сообщение ->  ProductController -> ProductService -> Kafka -> ProductCreateEventHandler_
-    - пересылка сообщения сразу в DLQ;
-    - retray сообщения с последующим его размещением в DLQ.
+    - пересылка сообщения сразу в **DLQ**;
+    - **retray** сообщения с последующим его размещением в DLQ.<br>
+  Настройка **DLQ** и **retray** см. в
+      [ConsumerApplicationConfiguration._kafkaListenerContainerFactory()_](app/app-consumer/src/main/java/ua/mai/zine/kafka/app/config/ConsumerApplicationConfiguration.java)
   
-  Requеsts для них находятся в [request.http](request.http) 
+  Requеsts для этих сценариев находятся в [request.http](request.http) 
 
 
 
@@ -210,8 +213,8 @@ docker compose -p zine-kafka-stack down -v
 
 ### docker-compose файл
 
-- [docker-compose.yml](docker-compose.yml) - запуск **одного брокера** Kafka, продьюсера и консьюмера в Docker.<br/>
-  Kafka доступна по _localhost:29092_.
+- [docker-compose.yml](docker-compose.yml) - запуск в docker **одного брокера** Kafka, продьюсера и консьюмера.<br/>
+  Kafka доступна по _localhost:29092_.<br/>
   Запросы к продьюсеру см. [request.http](request.http)
 
 - [docker-compose-kafka-localhost.yml](docker-compose-kafka-localhost.yml) - запуск только **одного брокера** Kafka в Docker.<br/>
@@ -332,3 +335,7 @@ bin/kafka-configs.sh --describe --entity-type brokers --entity-name <broker-id> 
 ## Consumer
 
 Приложениe - [ConsumerApplication](app/app-consumer/src/main/java/ua/mai/zine/kafka/app/ConsumerApplication.java)
+
+
+## Integration Test for Producer
+- [ProductServiceImplTest.testCreateProduct_whenGivenValidProductDetail_succesfulySendKafkaMessageIT()](producer/src/test/java/ua/mai/zine/kafka/producer/service/impl/ProductServiceImplTest.java)
