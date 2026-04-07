@@ -21,8 +21,7 @@
 - [Идемпотентный Producer](#producer)
 - [Идемпотентный Consumer](#consumer)
 - [Integration Test for Producer](#integration-test-for-producer)
-
-
+- [Integration Test for Consumer](#integration-test-for-consumer)
 
 ## Общее описание
 
@@ -332,6 +331,7 @@ bin/kafka-configs.sh --describe --entity-type brokers --entity-name <broker-id> 
 
 В модуле _producer_ есть _ProductController_, в который куализует POST запрос по созданию .
 
+
 ## Consumer
 
 Приложениe - [ConsumerApplication](app/app-consumer/src/main/java/ua/mai/zine/kafka/app/ConsumerApplication.java)
@@ -340,5 +340,13 @@ bin/kafka-configs.sh --describe --entity-type brokers --entity-name <broker-id> 
 Идемпотенность реализована через хранение обработанных сообщений в БД с последующей проверкой обрабатываемых сообщений
 на присутствие их в БД.
 
+
 ## Integration Test for Producer
-- [ProductServiceImplTest.testCreateProduct_whenGivenValidProductDetail_succesfulySendKafkaMessageIT()](producer/src/test/java/ua/mai/zine/kafka/producer/service/impl/ProductServiceImplTest.java)
+- [ProductServiceImplTest.testCreateProduct_whenGivenValidProductDetail_succesfulySendKafkaMessageIT()](producer/src/test/java/ua/mai/zine/kafka/producer/service/impl/ProductServiceImplTest.java)<br/>
+  В тесте используется Embedded Kafka.
+
+
+## Integration Test for Consumer
+
+- [ProductCreateEventHandlerIT.testHandleProductCreateEvent_whenGivenValidProductDetail_succesfulySendKafkaMessageIT()](consumer/src/test/java/ua/mai/zine/kafka/consumer/handler/ProductCreateEventHandlerIT.java)<br/>
+  В тесте используется Embedded Kafka и Testcontainers PostgreSQL.

@@ -6,11 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Solution0643Test {
 
-    Solution0005 solution = new Solution0005();
+    Solution0643 solution = new Solution0643();
 
     @Test
     void test1() {
-        Solution0643 solution = new Solution0643();
         double avg = solution.findMaxAverage(new int[]{1,12,-5,-6,50,3}, 4);
         assertEquals(12.75, avg);
     }

@@ -1,0 +1,50 @@
+
+spring:
+    kafka:
+        producer:
+            key-serializer: org.apache.kafka.common.serialization.StringSerializer
+            value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+        consumer:
+            group-id: product-created-events
+            auto-offset-reset: earliest
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+            properties:
+                spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+                spring.json.trusted.packages: ua.mai.zine.kafka.event,ua.mai.zine.kafka.dto
+
+    datasource:
+        url: jdbc:postgresql://localhost:5432/zine-kafka
+        username: postgres
+        password: postgres
+        driver-class-name: org.postgresql.Driver
+        #   type: com.zaxxer.hikari.HikariDataSource          # обычно не нужно, уже по умолчанию
+        hikari:
+            pool-name: Zine-JPA-Hikari       # Имя пула (удобно в логах и мониторинге)
+            # Основные настройки пула (самое важное)
+            maximum-pool-size: 10            # Начните с 10–20, подстраивайте под нагрузку и CPU (часто (ядра × 2) + 5–10)
+            minimum-idle: 5                  # Минимум простаивающих соединений (часто = 40–60% от maximum-pool-size)
+            idle-timeout: 300000             # 5 минут — когда соединение вернётся в пул, если не нужно
+            max-lifetime: 1800000            # 30 минут — максимальное время жизни соединения (MySQL часто убивает >8–24 ч)
+            connection-timeout: 30000        # 30 секунд — максимальное ожидание соединения из пула
+            leak-detection-threshold: 60000  # 60 секунд — логирует утечки соединений (очень полезно в проде)
+    jpa:
+        hibernate:
+            #            ddl-auto: none        # отключен
+            #            ddl-auto: validate    # только проверка
+            ddl-auto: update      # создаёт недостающие таблицы
+        #            ddl-auto: create      # пересоздаёт схему
+        #            ddl-auto: create-drop # удаляет при shutdown
+        show-sql: true
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                jdbc.time_zone: Europe/Kyiv
+                format_sql: true
+
+zine:
+    kafka:
+        product-create-topic:
+            name: product-create-topic
+        shop-create-topic:
+            name: shop-create-topic

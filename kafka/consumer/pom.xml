@@ -15,6 +15,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <properties>
+        <testcontainers-postgresql.version>2.0.3</testcontainers-postgresql.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -55,12 +58,10 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-            <!--            <version>3.2.2</version>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka-test</artifactId>
-<!--            <version>3.2.2</version>-->
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -77,6 +78,24 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers-postgresql</artifactId>
+            <version>${testcontainers-postgresql.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

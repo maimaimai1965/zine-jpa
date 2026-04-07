@@ -30,7 +30,7 @@
         <module name="app-consumer" />
         <module name="consumer" />
       </profile>
-      <profile name="Annotation profile for Redis :: Write-Behind" enabled="true">
+      <profile name="Annotation profile for Hibernate :: Services Application" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -42,10 +42,10 @@
         </processorPath>
         <module name="aa" />
         <module name="read-through" />
-        <module name="zine.hibernate" />
         <module name="core (jpa)" />
         <module name="zoo" />
         <module name="app-be" />
+        <module name="zine-hibernate" />
         <module name="write-behind" />
         <module name="cache-aside" />
       </profile>
@@ -80,8 +80,8 @@
       <module name="transfer-service" options="-parameters" />
       <module name="withdrawal-service" options="-parameters" />
       <module name="write-behind" options="-parameters" />
+      <module name="zine-hibernate" options="-parameters" />
       <module name="zine-jpa" options="-parameters" />
-      <module name="zine.hibernate" options="-parameters" />
       <module name="zoo" options="-parameters" />
     </option>
   </component>

@@ -1,5 +1,5 @@
 
-601. Human Traffic of Stadium  https://leetcode.com/problems/human-traffic-of-stadium/solutions/7627698/3-sql-approaches-for-human-traffic-of-st-3hvr/
+601. Human Traffic of Stadium  https://leetcode.com/problems/human-traffic-of-stadium/description/
 
 Мое решение:
 
